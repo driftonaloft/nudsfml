@@ -10,10 +10,11 @@
 		"SFML_Graphics", 
 		"SFML_System", 
 		"SFML_Window",
-		"SFML_205"],
+		"SFML_205",
+		"SFML_250"],
 	"libs" : ["csfml-graphics", "csfml-system", "csfml-window"],
 	"buildRequirements":["silenceDeprecations"],
 	"description": "A minimal D application.",
 	"license": "proprietary",
-	"name": "zomudbie"
+	"name": "nudsfml"
 }
