@@ -1,0 +1,19 @@
+{
+	"authors": [
+		"Drifton Aloft"
+	],
+	"copyright": "Copyright © 2022, Drifton Aloft",
+	"dependencies": {
+		"bindbc-sfml" : "~>0.2.0"
+	},
+	"versions" : [
+		"SFML_Graphics", 
+		"SFML_System", 
+		"SFML_Window",
+		"SFML_205"],
+	"libs" : ["csfml-graphics", "csfml-system", "csfml-window"],
+	"buildRequirements":["silenceDeprecations"],
+	"description": "A minimal D application.",
+	"license": "proprietary",
+	"name": "zomudbie"
+}
