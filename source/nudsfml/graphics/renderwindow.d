@@ -120,6 +120,8 @@
 module nudsfml.graphics.renderwindow;
 
 import bindbc.sfml.graphics;
+import bindbc.sfml.window;
+import bindbc.sfml.system;
 
 import nudsfml.graphics.color;
 import nudsfml.graphics.image;
@@ -159,7 +161,7 @@ class RenderWindow : Window, RenderTarget
      */
     this()
     {
-        sfPtr = sfRenderWindow_construct();
+        sfPtr = null; //sfRenderWindow_construct();
         super(0);
     }
 
@@ -240,8 +242,6 @@ class RenderWindow : Window, RenderTarget
 
     ~this()
     {
-        import dsfml.system.config;
-        mixin(destructorOutput);
         sfRenderWindow_destroy(sfPtr);
     }
 
@@ -256,15 +256,14 @@ class RenderWindow : Window, RenderTarget
          */
         override Vector2i position(Vector2i newPosition)
         {
-            sfRenderWindow_setPosition(sfPtr,newPosition.x, newPosition.y);
+            sfRenderWindow_setPosition(sfPtr,cast(sfVector2i)newPosition);
             return newPosition;
         }
 
         /// ditto
         override Vector2i position() const
         {
-            Vector2i temp;
-            sfRenderWindow_getPosition(sfPtr,&temp.x, &temp.y);
+            Vector2i temp = cast(Vector2i)sfRenderWindow_getPosition(sfPtr);
             return temp;
         }
     }
@@ -276,15 +275,14 @@ class RenderWindow : Window, RenderTarget
          */
         override Vector2u size(Vector2u newSize)
         {
-            sfRenderWindow_setSize(sfPtr, newSize.x, newSize.y);
+            sfRenderWindow_setSize(sfPtr, cast(sfVector2u)newSize);
             return newSize;
         }
 
         /// ditto
         override Vector2u size() const
         {
-            Vector2u temp;
-            sfRenderWindow_getSize(sfPtr,&temp.x, &temp.y);
+            Vector2u temp = cast(Vector2u) sfRenderWindow_getSize(sfPtr);
             return temp;
         }
     }
@@ -305,8 +303,13 @@ class RenderWindow : Window, RenderTarget
          */
         override View view(View newView)
         {
-            sfRenderWindow_setView(sfPtr, newView.center.x, newView.center.y, newView.size.x, newView.size.y, newView.rotation,
-                                    newView.viewport.left, newView.viewport.top, newView.viewport.width, newView.viewport.height);
+            sfView *viewPtr = sfView_create();
+            sfView_setCenter(viewPtr, cast(sfVector2f)newView.center);
+            sfView_setSize(viewPtr, cast(sfVector2f)newView.size);
+            sfView_setRotation(viewPtr, newView.rotation);
+            sfView_setViewport(viewPtr,cast(sfFloatRect) newView.viewport);
+            
+            sfRenderWindow_setView(sfPtr, viewPtr);
             return newView;
         }
 
@@ -319,13 +322,12 @@ class RenderWindow : Window, RenderTarget
             float currentRotation;
             FloatRect currentViewport;
 
-            sfRenderWindow_getView(sfPtr, &currentCenter.x, &currentCenter.y, &currentSize.x, &currentSize.y, &currentRotation,
-                                    &currentViewport.left, &currentViewport.top, &currentViewport.width, &currentViewport.height);
+            const(sfView*) v = sfRenderWindow_getView(sfPtr);
 
-            currentView.center = currentCenter;
-            currentView.size = currentSize;
-            currentView.rotation = currentRotation;
-            currentView.viewport = currentViewport;
+            currentView.center = cast(Vector2f)sfView_getCenter(v);
+            currentView.size = cast(Vector2f)sfView_getSize(v);
+            currentView.rotation = sfView_getRotation(v);
+            currentView.viewport = cast(FloatRect)sfView_getViewport(v);
 
             return currentView;
         }
@@ -347,13 +349,12 @@ class RenderWindow : Window, RenderTarget
         float currentRotation;
         FloatRect currentViewport;
 
-        sfRenderWindow_getDefaultView(sfPtr, &currentCenter.x, &currentCenter.y, &currentSize.x, &currentSize.y, &currentRotation,
-                                &currentViewport.left, &currentViewport.top, &currentViewport.width, &currentViewport.height);
+         const(sfView*) v = sfRenderWindow_getDefaultView(sfPtr);
 
-        currentView.center = currentCenter;
-        currentView.size = currentSize;
-        currentView.rotation = currentRotation;
-        currentView.viewport = currentViewport;
+        currentView.center = cast(Vector2f)sfView_getCenter(v);
+        currentView.size = cast(Vector2f)sfView_getSize(v);
+        currentView.rotation = sfView_getRotation(v);
+        currentView.viewport = cast(FloatRect)sfView_getViewport(v);
 
         return currentView;
     }
@@ -369,9 +370,12 @@ class RenderWindow : Window, RenderTarget
      */
     override ContextSettings getSettings() const
     {
-        ContextSettings temp;
-        sfRenderWindow_getSettings(sfPtr,&temp.depthBits, &temp.stencilBits, &temp.antialiasingLevel, &temp.majorVersion, &temp.minorVersion);
-        return temp;
+        sfContextSettings settings;
+		ContextSettings temp;
+		//sfWindow_getSettings(sfPtr,&temp.depthBits, &temp.stencilBits, &temp.antialiasingLevel, &temp.majorVersion, &temp.minorVersion);
+		settings =	 sfRenderWindow_getSettings(sfPtr);
+		temp = cast(ContextSettings)settings;
+		return temp;
     }
 
     //this is a duplicate with the size property. Need to look into that
@@ -562,7 +566,8 @@ class RenderWindow : Window, RenderTarget
     override void setTitle(const(dchar)[] newTitle)
     {
     import dsfml.system.string;
-        sfRenderWindow_setUnicodeTitle(sfPtr, newTitle.ptr, newTitle.length);
+        auto convertedTitle = newTitle ~ '\000';
+        sfRenderWindow_setUnicodeTitle(sfPtr, newTitle.ptr);
     }
 
     /**
@@ -972,127 +977,3 @@ unittest
     }
 }
 
-package extern(C) struct sfRenderWindow;
-
-private extern(C):
-
-//Construct a new render window
-sfRenderWindow* sfRenderWindow_construct();
-
-//Construct a new render window from settings
-sfRenderWindow* sfRenderWindow_constructFromSettings(uint width, uint height, uint bitsPerPixel, const(dchar)* title, size_t titleLength, int style, uint depthBits, uint stencilBits, uint antialiasingLevel, uint majorVersion, uint minorVersion);
-
-//Construct a render window from an existing control
-sfRenderWindow* sfRenderWindow_constructFromHandle(WindowHandle handle, uint depthBits, uint stencilBits, uint antialiasingLevel, uint majorVersion, uint minorVersion);
-
-//Create(or recreate) a new render window from settings
-void sfRenderWindow_createFromSettings(sfRenderWindow* renderWindow, uint width, uint height, uint bitsPerPixel, const(dchar)* title, size_t titleLength, int style, uint depthBits, uint stencilBits, uint antialiasingLevel, uint majorVersion, uint minorVersion);
-
-//Create(or recreate) a render window from an existing control
-void sfRenderWindow_createFromHandle(sfRenderWindow* renderWindow, WindowHandle handle, uint depthBits, uint stencilBits, uint antialiasingLevel, uint majorVersion, uint minorVersion);
-
-//Destroy an existing render window
-void sfRenderWindow_destroy(sfRenderWindow* renderWindow);
-
-//Close a render window (but doesn't destroy the internal data)
-void sfRenderWindow_close(sfRenderWindow* renderWindow);
-
-//Tell whether or not a render window is opened
-bool sfRenderWindow_isOpen(const sfRenderWindow* renderWindow);
-
-//Get the creation settings of a render window
-void sfRenderWindow_getSettings(const sfRenderWindow* renderWindow, uint* depthBits, uint* stencilBits, uint* antialiasingLevel, uint* majorVersion, uint* minorVersion);
-
-//Get the event on top of event queue of a render window, if any, and pop it
-bool sfRenderWindow_pollEvent(sfRenderWindow* renderWindow, Event* event);
-
-//Wait for an event and return it
-bool sfRenderWindow_waitEvent(sfRenderWindow* renderWindow, Event* event);
-
-//Get the position of a render window
-void sfRenderWindow_getPosition(const sfRenderWindow* renderWindow, int* x, int* y);
-
-//Change the position of a render window on screen
-void sfRenderWindow_setPosition(sfRenderWindow* renderWindow, int x, int y);
-
-//Get the size of the rendering region of a render window
-void sfRenderWindow_getSize(const sfRenderWindow* renderWindow, uint* width, uint* height);
-
-//Change the size of the rendering region of a render window
-void sfRenderWindow_setSize(sfRenderWindow* renderWindow, int width, int height);
-
-//Change the title of a render window
-void sfRenderWindow_setTitle(sfRenderWindow* renderWindow, const(char)* title, size_t titleLength);
-
-//Change the title of a render window (with a UTF-32 string)
-void sfRenderWindow_setUnicodeTitle(sfRenderWindow* renderWindow, const(dchar)* title, size_t titleLength);
-
-//Change a render window's icon
-void sfRenderWindow_setIcon(sfRenderWindow* renderWindow, uint width, uint height, const ubyte* pixels);
-
-//Show or hide a render window
-void sfRenderWindow_setVisible(sfRenderWindow* renderWindow, bool visible);
-
-//Show or hide the mouse cursor on a render window
-void sfRenderWindow_setMouseCursorVisible(sfRenderWindow* renderWindow, bool show);
-
-//Enable / disable vertical synchronization on a render window
-void sfRenderWindow_setVerticalSyncEnabled(sfRenderWindow* renderWindow, bool enabled);
-
-//Enable or disable automatic key-repeat for keydown events
-void sfRenderWindow_setKeyRepeatEnabled(sfRenderWindow* renderWindow, bool enabled);
-
-//Activate or deactivate a render window as the current target for rendering
-bool sfRenderWindow_setActive(sfRenderWindow* renderWindow, bool active);
-
-//Display a render window on screen
-void sfRenderWindow_display(sfRenderWindow* renderWindow);
-
-//Limit the framerate to a maximum fixed frequency for a render window
-void sfRenderWindow_setFramerateLimit(sfRenderWindow* renderWindow, uint limit);
-
-//Change the joystick threshold, ie. the value below which no move event will be generated
-void sfRenderWindow_setJoystickThreshold(sfRenderWindow* renderWindow, float threshold);
-
-//Retrieve the OS-specific handle of a render window
-WindowHandle sfRenderWindow_getSystemHandle(const sfRenderWindow* renderWindow);
-
-//Clear a render window with the given color
-void sfRenderWindow_clear(sfRenderWindow* renderWindow, ubyte r, ubyte g, ubyte b, ubyte a);
-
-//Change the current active view of a render window
-void sfRenderWindow_setView(sfRenderWindow* renderWindow, float centerX, float centerY, float sizeX,
-                                                float sizeY, float rotation, float viewportLeft, float viewportTop, float viewportWidth,
-                                                float viewportHeight);
-
-//Get the current active view of a render window
-void sfRenderWindow_getView(const sfRenderWindow* renderWindow, float* centerX, float* centerY, float* sizeX,
-                                                float* sizeY, float* rotation, float* viewportLeft, float* viewportTop, float* viewportWidth,
-                                                float* viewportHeight);
-
-//Get the default view of a render window
-void sfRenderWindow_getDefaultView(const sfRenderWindow* renderWindow, float* centerX, float* centerY, float* sizeX,
-                                                float* sizeY, float* rotation, float* viewportLeft, float* viewportTop, float* viewportWidth,
-                                                float* viewportHeight);
-
-//Draw primitives defined by an array of vertices to a render window
-void sfRenderWindow_drawPrimitives(sfRenderWindow* renderWindow,const (void)* vertices, uint vertexCount, int type, int colorSrcFactor, int colorDstFactor, int colorEquation,
-    int alphaSrcFactor, int alphaDstFactor, int alphaEquation, const (float)* transform, const (sfTexture)* texture, const (sfShader)* shader);
-
-//Save the current OpenGL render states and matrices
-void sfRenderWindow_pushGLStates(sfRenderWindow* renderWindow);
-
-//Restore the previously saved OpenGL render states and matrices
-void sfRenderWindow_popGLStates(sfRenderWindow* renderWindow);
-
-//Reset the internal OpenGL states so that the target is ready for drawing
-void sfRenderWindow_resetGLStates(sfRenderWindow* renderWindow);
-
-//Copy the current contents of a render window to an image
-sfImage* sfRenderWindow_capture(const sfRenderWindow* renderWindow);
-
-//Get the current position of the mouse relatively to a render-window
-void sfMouse_getPositionRenderWindow(const sfRenderWindow* relativeTo, int* x, int* y);
-
-//Set the current position of the mouse relatively to a render-window
-void sfMouse_setPositionRenderWindow(int x, int y, const sfRenderWindow* relativeTo);

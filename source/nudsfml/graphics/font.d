@@ -238,7 +238,7 @@ class Font
 
         int b = bold ? 1 : 0;
         sfFont * f = cast(sfFont*)sfPtr;
-        sfGlyph g = sfFont_getGlyph(f, cast(uint)codePoint, characterSize, b);
+        sfGlyph g = sfFont_getGlyph(f, cast(uint)codePoint, characterSize, b,outlineThickness);
         Glyph temp = cast(Glyph)g;
 
         return temp;

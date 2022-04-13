@@ -9,6 +9,7 @@ import nudsfml.graphics.color;
 import nudsfml.graphics.renderwindow;
 import nudsfml.system;
 import nudsfml.window.event;
+import nudsfml.window.keyboard;
 //
 
 
@@ -32,8 +33,8 @@ void main(){
 		Event e;
 		while(win.pollEvent(e)){
 			switch(e.type){
-				case EventType.KeyPressed:
-					if(e.key.code == Keyboard.KeyEscape){
+				case Event.EventType.KeyPressed:
+					if(e.key.code == Keyboard.Key.Escape){
 						running = false;
 					}
 					break;

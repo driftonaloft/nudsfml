@@ -28,7 +28,7 @@ struct View {
     }
 
     @property { //center 
-        Vector2f venter(Vector2f newCenter){
+        Vector2f center(Vector2f newCenter){
             m_center = newCenter;
             m_transformUpdated = false;
             m_invTransformUpdated = false;

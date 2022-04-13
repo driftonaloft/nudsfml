@@ -89,6 +89,8 @@
 module nudsfml.graphics.rendertexture;
 
 import bindbc.sfml.graphics;
+import bindbc.sfml.window;
+import bindbc.sfml.system;
 
 import nudsfml.graphics.color;
 import nudsfml.graphics.drawable;
@@ -99,6 +101,7 @@ import nudsfml.graphics.rendertarget;
 import nudsfml.graphics.shader;
 import nudsfml.graphics.text;
 import nudsfml.graphics.texture;
+import nudsfml.graphics.transform;
 import nudsfml.graphics.vertex;
 import nudsfml.graphics.view;
 
@@ -117,15 +120,13 @@ class RenderTexture : RenderTarget
     /// Default constructor.
     this()
     {
-        sfPtr = sfRenderTexture_construct();
-        m_texture = new Texture(sfRenderTexture_getTexture(sfPtr));
+        sfPtr = null;//sfRenderTexture_construct();
+        m_texture = null; //new Texture(sfRenderTexture_getTexture(sfPtr));
     }
 
     /// Desructor.
     ~this()
     {
-        import dsfml.system.config;
-        mixin(destructorOutput);
         sfRenderTexture_destroy(sfPtr);
     }
 
@@ -148,9 +149,14 @@ class RenderTexture : RenderTarget
      *
      * Returns: True if creation has been successful.
      */
-    bool create(uint width, uint height, bool depthBuffer = false)
-    {
-        return sfRenderTexture_create(sfPtr, width, height, depthBuffer);
+    bool create(uint width, uint height, bool depthBuffer = false) {
+        if(sfPtr !is null){
+            sfRenderTexture_destroy(sfPtr);
+        }
+        sfPtr = sfRenderTexture_create(width, height, depthBuffer);
+         m_texture = new Texture(cast(sfTexture*)sfRenderTexture_getTexture(sfPtr));
+
+        return sfPtr != null;
     }
 
     @property
@@ -167,7 +173,7 @@ class RenderTexture : RenderTarget
         /// ditto
         bool smooth() const
         {
-            return (sfRenderTexture_isSmooth(sfPtr));
+            return (sfRenderTexture_isSmooth(sfPtr)) > 0;
         }
     }
 
@@ -187,8 +193,13 @@ class RenderTexture : RenderTarget
          */
         override View view(View newView)
         {
-            sfRenderTexture_setView(sfPtr, newView.center.x, newView.center.y, newView.size.x, newView.size.y, newView.rotation,
-                                    newView.viewport.left, newView.viewport.top, newView.viewport.width, newView.viewport.height);
+            sfView *viewPtr = sfView_create();
+            sfView_setCenter(viewPtr, cast(sfVector2f)newView.center);
+            sfView_setSize(viewPtr, cast(sfVector2f)newView.size);
+            sfView_setRotation(viewPtr, newView.rotation);
+            sfView_setViewport(viewPtr,cast(sfFloatRect) newView.viewport);
+
+            sfRenderTexture_setView(sfPtr, viewPtr);
             return newView;
         }
 
@@ -201,13 +212,12 @@ class RenderTexture : RenderTarget
             float currentRotation;
             FloatRect currentViewport;
 
-            sfRenderTexture_getView(sfPtr, &currentCenter.x, &currentCenter.y, &currentSize.x, &currentSize.y, &currentRotation,
-                                    &currentViewport.left, &currentViewport.top, &currentViewport.width, &currentViewport.height);
+            const(sfView*) v = sfRenderTexture_getView(sfPtr);
 
-            currentView.center = currentCenter;
-            currentView.size = currentSize;
-            currentView.rotation = currentRotation;
-            currentView.viewport = currentViewport;
+            currentView.center = cast(Vector2f)sfView_getCenter(v);
+            currentView.size = cast(Vector2f)sfView_getSize(v);
+            currentView.rotation = sfView_getRotation(v);
+            currentView.viewport = cast(FloatRect)sfView_getViewport(v);
 
             return currentView;
         }
@@ -229,13 +239,12 @@ class RenderTexture : RenderTarget
         float currentRotation;
         FloatRect currentViewport;
 
-        sfRenderTexture_getDefaultView(sfPtr, &currentCenter.x, &currentCenter.y, &currentSize.x, &currentSize.y, &currentRotation,
-                                &currentViewport.left, &currentViewport.top, &currentViewport.width, &currentViewport.height);
+        const(sfView*) v = sfRenderTexture_getDefaultView(sfPtr);
 
-        currentView.center = currentCenter;
-        currentView.size = currentSize;
-        currentView.rotation = currentRotation;
-        currentView.viewport = currentViewport;
+        currentView.center = cast(Vector2f)sfView_getCenter(v);
+        currentView.size = cast(Vector2f)sfView_getSize(v);
+        currentView.rotation =  sfView_getRotation(v);
+        currentView.viewport = cast(FloatRect)sfView_getViewport(v);
 
         return currentView;
     }
@@ -247,8 +256,7 @@ class RenderTexture : RenderTarget
      */
     Vector2u getSize() const
     {
-        Vector2u temp;
-        sfRenderTexture_getSize(sfPtr, &temp.x, &temp.y);
+        Vector2u temp = cast(Vector2u)sfRenderTexture_getSize(sfPtr);
         return temp;
     }
 
@@ -298,9 +306,8 @@ class RenderTexture : RenderTarget
      * Params:
      * 		color	= Fill color to use to clear the render target
      */
-    void clear(Color color = Color.Black)
-    {
-        sfRenderTexture_clear(sfPtr, color.r,color.g, color.b, color.a);
+    void clear(Color color = Color.Black) {
+        sfRenderTexture_clear(sfPtr, cast(sfColor)color);
     }
 
     /**
@@ -339,9 +346,13 @@ class RenderTexture : RenderTarget
     {
         import std.algorithm;
 
-        sfRenderTexture_drawPrimitives(sfPtr, vertices.ptr, cast(uint)min(uint.max, vertices.length),type,states.blendMode.colorSrcFactor, states.blendMode.alphaDstFactor,
-            states.blendMode.colorEquation, states.blendMode.alphaSrcFactor, states.blendMode.alphaDstFactor, states.blendMode.alphaEquation,
-            states.transform.m_matrix.ptr, states.texture?states.texture.sfPtr:null, states.shader?states.shader.sfPtr:null);
+        sfRenderStates sfStates;
+        sfStates.blendMode = cast(sfBlendMode)states.blendMode;
+        sfStates.transform = getFromTransform(states.transform);
+        sfStates.texture = states.texture.sfPtr;
+        sfStates.shader = states.shader.sfPtr;
+
+        sfRenderTexture_drawPrimitives(sfPtr, cast(sfVertex*)vertices.ptr, cast(uint)min(uint.max, vertices.length),cast(sfPrimitiveType)type, &sfStates);
     }
 
     /**
@@ -423,65 +434,3 @@ unittest
         writeln();
     }
 }
-
-package extern(C) struct sfRenderTexture;
-
-private extern(C):
-
-//Construct a new render texture
-sfRenderTexture* sfRenderTexture_construct();
-
-//Construct a new render texture
-bool sfRenderTexture_create(sfRenderTexture* renderTexture, uint width, uint height, bool depthBuffer);
-
-//Destroy an existing render texture
-void sfRenderTexture_destroy(sfRenderTexture* renderTexture);
-
-//Get the size of the rendering region of a render texture
-void sfRenderTexture_getSize(const sfRenderTexture* renderTexture, uint* x, uint* y);
-
-//Activate or deactivate a render texture as the current target for rendering
-bool sfRenderTexture_setActive(sfRenderTexture* renderTexture, bool active);
-
-//Update the contents of the target texture
-void sfRenderTexture_display(sfRenderTexture* renderTexture);
-
-//Clear the rendertexture with the given color
-void sfRenderTexture_clear(sfRenderTexture* renderTexture, ubyte r, ubyte g, ubyte b, ubyte a);
-
-//Change the current active view of a render texture
-void sfRenderTexture_setView(sfRenderTexture* renderTexture, float centerX, float centerY, float sizeX,
-                                                float sizeY, float rotation, float viewportLeft, float viewportTop, float viewportWidth,
-                                                float viewportHeight);
-
-//Get the current active view of a render texture
-void sfRenderTexture_getView(const sfRenderTexture* renderTexture, float* centerX, float* centerY, float* sizeX,
-                                                float* sizeY, float* rotation, float* viewportLeft, float* viewportTop, float* viewportWidth,
-                                                float* viewportHeight);
-
-//Get the default view of a render texture
-void sfRenderTexture_getDefaultView(const sfRenderTexture* renderTexture, float* centerX, float* centerY, float* sizeX,
-                                                float* sizeY, float* rotation, float* viewportLeft, float* viewportTop, float* viewportWidth,
-                                                float* viewportHeight);
-
-//Draw primitives defined by an array of vertices to a render texture
-void sfRenderTexture_drawPrimitives(sfRenderTexture* renderTexture,  const void* vertices, uint vertexCount, int type, int colorSrcFactor, int colorDstFactor, int colorEquation,
-    int alphaSrcFactor, int alphaDstFactor, int alphaEquation, const float* transform, const sfTexture* texture, const sfShader* shader);
-
-//Save the current OpenGL render states and matrices
-void sfRenderTexture_pushGLStates(sfRenderTexture* renderTexture);
-
-//Restore the previously saved OpenGL render states and matrices
-void sfRenderTexture_popGLStates(sfRenderTexture* renderTexture);
-
-//Reset the internal OpenGL states so that the target is ready for drawing
-void sfRenderTexture_resetGLStates(sfRenderTexture* renderTexture);
-
-//Get the target texture of a render texture
-sfTexture* sfRenderTexture_getTexture(const sfRenderTexture* renderTexture);
-
-//Enable or disable the smooth filter on a render texture
-void sfRenderTexture_setSmooth(sfRenderTexture* renderTexture, bool smooth);
-
-//Tell whether the smooth filter is enabled or not for a render texture
-bool sfRenderTexture_isSmooth(const sfRenderTexture* renderTexture);
