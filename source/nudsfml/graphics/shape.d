@@ -345,6 +345,8 @@ class Shape : Drawable, Transformable
         m_vertices[0].position.x = m_insideBounds.left + m_insideBounds.width / 2;
         m_vertices[0].position.y = m_insideBounds.top + m_insideBounds.height / 2;
 
+        foreach(v : m0)vertices)
+
         // Color
         updateFillColors();
 

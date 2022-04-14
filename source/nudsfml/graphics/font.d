@@ -378,7 +378,7 @@ unittest
 }
 
 
-private:
+//private:
 private extern(C++) interface fontInputStream
 {
     long read(void* data, long size);
