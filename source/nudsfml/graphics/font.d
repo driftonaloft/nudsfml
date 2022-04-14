@@ -170,6 +170,7 @@ class Font
             sfFont_destroy(sfPtr);
         }
         sfPtr = sfFont_createFromFile(filename.toStringz);
+
         return sfPtr !is null;
     }
 
@@ -237,7 +238,7 @@ class Font
     {
 
         int b = bold ? 1 : 0;
-        sfFont * f = cast(sfFont*)sfPtr;
+        auto f = sfPtr;
         sfGlyph g = sfFont_getGlyph(f, cast(uint)codePoint, characterSize, b,outlineThickness);
         Glyph temp = cast(Glyph)g;
 
@@ -329,6 +330,7 @@ class Font
      */
     const(Texture) getTexture (uint characterSize)
     {
+        import std.stdio;
         Texture ret = textures.get(characterSize, null);
 
         if(ret is null)
@@ -337,7 +339,6 @@ class Font
             ret = new Texture(p);
             textures[characterSize] = ret;
         }
-
         return ret;
     }
 

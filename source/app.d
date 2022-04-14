@@ -5,12 +5,9 @@ import game : Game;
 
 import bindbc.sfml;
 
-import nudsfml.graphics.color;
-import nudsfml.graphics.renderwindow;
+import nudsfml.graphics;
+import nudsfml.window;
 import nudsfml.system;
-import nudsfml.window.event;
-import nudsfml.window.keyboard;
-//
 
 
 string gameVersion = "0.00.01";
@@ -26,7 +23,20 @@ void main(){
 	}
 
 
-	RenderWindow win = new RenderWindow;
+	RenderWindow win = new RenderWindow(VideoMode(800, 600), "NudSFML Test");
+	win.setFramerateLimit(60);
+
+	
+	Font f = new Font();
+	if(!f.loadFromFile("/Users/drifton/projects/nudsfml/data/CamingoCode-Regular.ttf")){
+		writeln("failed to load font");
+	}
+	
+	//writeln(f.sfPtr);
+
+	Text t = new Text("Hello World", f);
+	
+
 	bool running = true;
 	char i = 0;
 	while(win.isOpen() && running){
@@ -43,8 +53,9 @@ void main(){
 			}
 		}
 		
-		win.clear(Color.Green);
+		win.clear();
 
+		win.draw(t);
 
 		win.display();
 	}

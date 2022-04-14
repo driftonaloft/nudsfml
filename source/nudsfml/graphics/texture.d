@@ -21,6 +21,7 @@ import nudsfml.system.vector2;
 class Texture
 {
     package sfTexture* sfPtr;
+    bool managed = false;
 
     /**
      * Default constructor
@@ -34,6 +35,7 @@ class Texture
     package this(sfTexture* texturePointer)
     {
         sfPtr = texturePointer;
+        managed = true;
     }
 
     /// Destructor.
@@ -41,7 +43,9 @@ class Texture
     {
         //import dsfml.system.config;
 //        mixin(destructorOutput);
-        sfTexture_destroy( sfPtr);
+        if(!managed) {
+            sfTexture_destroy(sfPtr);
+        }
     }
 
     /**

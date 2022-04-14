@@ -133,6 +133,7 @@ import nudsfml.graphics.rendertarget;
 import nudsfml.graphics.shader;
 import nudsfml.graphics.text;
 import nudsfml.graphics.texture;
+import nudsfml.graphics.transform;
 import nudsfml.graphics.view;
 import nudsfml.graphics.vertex;
 
@@ -645,22 +646,27 @@ class RenderWindow : Window, RenderTarget
     *
 	 * deprecated: Use the version of create that takes a 'const(dchar)[]'.
     */
-    deprecated("Use the version of create that takes a 'const(dchar)[]'.")
-    override void create(VideoMode mode, const(char)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init)
-    {
-        import std.utf: toUTF32;
-		auto convertedTitle = toUTF32(title);
-        sfRenderWindow_createFromSettings(sfPtr, mode.width, mode.height, mode.bitsPerPixel, convertedTitle.ptr, convertedTitle.length, style, settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
+    //deprecated("Use the version of create that takes a 'const(dchar)[]'.")
+    override void create(VideoMode mode, const(char)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init) {
+        import std.string;
+
+        if(sfPtr!=null) {
+            sfRenderWindow_destroy(sfPtr);
+        }
+        sfPtr = sfRenderWindow_create(cast(sfVideoMode)mode, cast(const(char*))title.toStringz, cast(sfUint32)style, cast(sfContextSettings*)&settings);
+		
+        //sfRenderWindow_createFromSettings(sfPtr, mode.width, mode.height, mode.bitsPerPixel, convertedTitle.ptr, convertedTitle.length, style, settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
 
     }
 
     /// ditto
     override void create(VideoMode mode, const(wchar)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init)
     {
-        import std.utf: toUTF32;
-		auto convertedTitle = toUTF32(title);
-        sfRenderWindow_createFromSettings(sfPtr, mode.width, mode.height, mode.bitsPerPixel, convertedTitle.ptr, convertedTitle.length, style, settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
-
+        import std.utf;
+        if(sfPtr!=null) {
+            sfRenderWindow_destroy(sfPtr);
+        }
+        sfPtr = sfRenderWindow_createUnicode(cast(sfVideoMode)mode, cast(const(uint*))title.toUTFz!(dchar*), cast(sfUint32)style, cast(sfContextSettings*)&settings);
     }
 
     /**
@@ -681,7 +687,11 @@ class RenderWindow : Window, RenderTarget
      */
     override void create(VideoMode mode, const(dchar)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init)
     {
-        sfRenderWindow_createFromSettings(sfPtr, mode.width, mode.height, mode.bitsPerPixel, title.ptr, title.length, style, settings.depthBits, settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
+        import std.utf;
+        if(sfPtr!=null) {
+            sfRenderWindow_destroy(sfPtr);
+        }
+        sfPtr = sfRenderWindow_createUnicode(cast(sfVideoMode)mode, cast(const(uint*))title.toUTFz!(dchar*), cast(sfUint32)style, cast(sfContextSettings*)&settings);
     }
 
     /**
@@ -700,7 +710,11 @@ class RenderWindow : Window, RenderTarget
     */
     override void create(WindowHandle handle, ContextSettings settings = ContextSettings.init)
     {
-        sfRenderWindow_createFromHandle(sfPtr, handle, settings.depthBits,settings.stencilBits, settings.antialiasingLevel, settings.majorVersion, settings.minorVersion);
+        if(sfPtr!=null) {
+            sfRenderWindow_destroy(sfPtr);
+        }
+        //verify this is correct
+        sfPtr = sfRenderWindow_createFromHandle(cast(void*)&handle, cast(sfContextSettings*)&settings);
     }
 
     /**
@@ -760,9 +774,13 @@ class RenderWindow : Window, RenderTarget
     {
         import std.algorithm;
 
-        sfRenderWindow_drawPrimitives(sfPtr, vertices.ptr, cast(uint)min(uint.max, vertices.length), type,states.blendMode.colorSrcFactor, states.blendMode.alphaDstFactor,
-            states.blendMode.colorEquation, states.blendMode.alphaSrcFactor, states.blendMode.alphaDstFactor, states.blendMode.alphaEquation,
-            states.transform.m_matrix.ptr,states.texture?states.texture.sfPtr:null,states.shader?states.shader.sfPtr:null);
+        sfRenderStates sfStates;
+        sfStates.blendMode = cast(sfBlendMode)states.blendMode;
+        sfStates.transform = getFromTransform(states.transform);
+        sfStates.texture = states.texture !is null ? states.texture.sfPtr : null;
+        sfStates.shader = states.shader !is null ? states.shader.sfPtr : null;
+
+        sfRenderWindow_drawPrimitives(sfPtr, cast(sfVertex*)vertices.ptr, cast(uint)min(uint.max, vertices.length),cast(sfPrimitiveType)type, &sfStates);
     }
 
     /**
@@ -776,7 +794,7 @@ class RenderWindow : Window, RenderTarget
      */
     override bool isOpen() const
     {
-        return (sfRenderWindow_isOpen(sfPtr));
+        return (sfRenderWindow_isOpen(sfPtr)) > 0;
     }
 
     /**
@@ -843,7 +861,10 @@ class RenderWindow : Window, RenderTarget
      */
     override bool pollEvent(ref Event event)
     {
-        return (sfRenderWindow_pollEvent(sfPtr, &event));
+        sfEvent sfevent;
+		bool retval = (sfRenderWindow_pollEvent(sfPtr, &sfevent)) > 0;
+		event = fromSfEvent(sfevent);
+		return retval;
     }
 
     /**
@@ -863,7 +884,10 @@ class RenderWindow : Window, RenderTarget
      */
     override bool waitEvent(ref Event event)
     {
-        return (sfRenderWindow_waitEvent(sfPtr, &event));
+        sfEvent sfevent;
+		bool retval = (sfRenderWindow_waitEvent(sfPtr, &sfevent)) > 0;
+		event = fromSfEvent(sfevent);
+		return retval;
     }
 
     //TODO: Consider adding these methods.
@@ -872,15 +896,15 @@ class RenderWindow : Window, RenderTarget
 
     override protected Vector2i getMousePosition()const
     {
-        Vector2i temp;
-        sfMouse_getPositionRenderWindow(sfPtr, &temp.x, &temp.y);
+        Vector2i temp = cast(Vector2i)sfMouse_getPositionRenderWindow(sfPtr);
         return temp;
     }
 
     //TODO: Fix these names or something.
     override protected void setMousePosition(Vector2i pos) const
     {
-        sfMouse_setPositionRenderWindow(pos.x, pos.y, sfPtr);
+        sfVector2i position = cast(sfVector2i)pos;
+        sfMouse_setPositionRenderWindow(position, sfPtr);
     }
 
     //let's Texture have a way to get the sfPtr of a regular window.
