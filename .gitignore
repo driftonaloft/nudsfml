@@ -1,6 +1,8 @@
-nudsfml
+
 nudsfml-test-library
 
 .dub
 .vscode
 font.png
+
+.DS_Store

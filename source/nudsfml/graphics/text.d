@@ -94,8 +94,7 @@ import nudsfml.system.vector2;
 class Text : Drawable, Transformable
 {
     /// Enumeration of the string drawing styles.
-    enum Style
-    {
+    enum Style {
         /// Regular characters, no style
         Regular = 0,
         /// Bold characters
@@ -126,8 +125,7 @@ class Text : Drawable, Transformable
 
         //helper function to copy input string into character buffer
         void stringCopy(T)(const(T)[] str)
-        if (is(T == dchar)||is(T == wchar)||is(T == char))
-        {
+        if (is(T == dchar)||is(T == wchar)||is(T == char)) {
             import std.utf: byDchar;
 
             //make a conservative estimate on how much room we'll need
@@ -144,8 +142,7 @@ class Text : Drawable, Transformable
      *
      * Creates an empty text.
      */
-    this()
-    {
+    this() {
         m_characterSize = 30;
         m_style = Style.Regular;
         m_fillColor = Color(255,255,255);
@@ -239,10 +236,8 @@ class Text : Drawable, Transformable
          * to display text of a certain size, make sure the corresponding bitmap
          * font that supports that size is used.
          */
-        uint characterSize(uint size)
-        {
-            if(m_characterSize != size)
-            {
+        uint characterSize(uint size) {
+            if(m_characterSize != size) {
                 m_characterSize = size;
                 m_geometryNeedUpdate = true;
             }
@@ -250,8 +245,7 @@ class Text : Drawable, Transformable
         }
 
         /// ditto
-        uint characterSize() const
-        {
+        uint characterSize() const {
             return m_characterSize;
         }
     }
@@ -273,8 +267,7 @@ class Text : Drawable, Transformable
      * deprecated: Use the 'characterSize' property instead.
      */
     deprecated("Use the 'characterSize' property instead.")
-    void setCharacterSize(uint size)
-    {
+    void setCharacterSize(uint size){
         characterSize = size;
     }
 
@@ -286,8 +279,7 @@ class Text : Drawable, Transformable
      * deprecated: Use the 'characterSize' property instead.
      */
     deprecated("Use the 'characterSize' property instead.")
-    uint getCharacterSize() const
-    {
+    uint getCharacterSize() const {
         return characterSize;
     }
 
@@ -302,8 +294,7 @@ class Text : Drawable, Transformable
      * deprecated: Use the 'fillColor' or 'outlineColor' properties instead.
      */
     deprecated("Use the 'fillColor' or 'outlineColor' properties instead.")
-    void setColor(Color color)
-    {
+    void setColor(Color color) {
         fillColor = color;
     }
 
@@ -315,8 +306,7 @@ class Text : Drawable, Transformable
      * deprecated: Use the 'fillColor' or 'outlineColor' properties instead.
      */
     deprecated("Use the 'fillColor' or 'outlineColor' properties instead.")
-    Color getColor() const
-    {
+    Color getColor() const {
         return fillColor;
     }
 
@@ -329,18 +319,14 @@ class Text : Drawable, Transformable
         * color to a transparent color with an outline will cause the outline to
         * be displayed in the fill area of the text.
         */
-        Color fillColor(Color color)
-        {
-            if(m_fillColor != color)
-            {
+        Color fillColor(Color color) {
+            if(m_fillColor != color) {
                 m_fillColor = color;
 
                 // Change vertex colors directly, no need to update whole geometry
                 // (if geometry is updated anyway, we can skip this step)
-                if(!m_geometryNeedUpdate)
-                {
-                    for(int i = 0; i < m_vertices.getVertexCount(); ++i)
-                    {
+                if(!m_geometryNeedUpdate) {
+                    for(int i = 0; i < m_vertices.getVertexCount(); ++i) {
                         m_vertices[i].color = m_fillColor;
                     }
                 }
@@ -350,8 +336,7 @@ class Text : Drawable, Transformable
         }
 
         /// ditto
-        Color fillColor() const
-        {
+        Color fillColor() const {
             return m_fillColor;
         }
     }
@@ -363,18 +348,14 @@ class Text : Drawable, Transformable
         *
         * By default, the text's outline color is opaque black.
         */
-        Color outlineColor(Color color)
-        {
-            if(m_outlineColor != color)
-            {
+        Color outlineColor(Color color) {
+            if(m_outlineColor != color){
                 m_outlineColor = color;
 
                 // Change vertex colors directly, no need to update whole geometry
                 // (if geometry is updated anyway, we can skip this step)
-                if(!m_geometryNeedUpdate)
-                {
-                    for(int i = 0; i < m_outlineVertices.getVertexCount(); ++i)
-                    {
+                if(!m_geometryNeedUpdate) {
+                    for(int i = 0; i < m_outlineVertices.getVertexCount(); ++i) {
                         m_outlineVertices[i].color = m_outlineColor;
                     }
                 }
@@ -384,8 +365,7 @@ class Text : Drawable, Transformable
         }
 
         /// ditto
-        Color outlineColor() const
-        {
+        Color outlineColor() const {
             return m_outlineColor;
         }
     }
@@ -397,10 +377,8 @@ class Text : Drawable, Transformable
         *
         * By default, the text's outline color is opaque black.
         */
-        float outlineThickness(float thickness)
-        {
-            if(m_outlineThickness != thickness)
-            {
+        float outlineThickness(float thickness) {
+            if(m_outlineThickness != thickness) {
                 m_outlineThickness = thickness;
                 m_geometryNeedUpdate = true;
             }
@@ -409,21 +387,17 @@ class Text : Drawable, Transformable
         }
 
         /// ditto
-        float outlineThickness() const
-        {
+        float outlineThickness() const {
             return m_outlineThickness;
         }
     }
 
-    @property
-    {
+    @property {
         /**
         * The text's font.
         */
-        const(Font) font(Font newFont)
-        {
-            if (m_font !is newFont)
-            {
+        const(Font) font(Font newFont) {
+            if (m_font !is newFont){
                 m_font = newFont;
                 m_geometryNeedUpdate = true;
             }
@@ -432,8 +406,7 @@ class Text : Drawable, Transformable
         }
 
         /// ditto
-        const(Font) font() const
-        {
+        const(Font) font() const{
             return m_font;
         }
     }

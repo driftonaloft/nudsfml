@@ -24,7 +24,7 @@ void main(){
 
 
 	RenderWindow win = new RenderWindow(VideoMode(800, 600), "NudSFML Test");
-	win.setFramerateLimit(60);
+	//win.setFramerateLimit(60);
 
 	
 	Font f = new Font();
@@ -36,6 +36,8 @@ void main(){
 
 	Text t = new Text("Hello World", f);
 	
+	Vector2f speed = Vector2f(0.3f, 0.8f);
+	Vector2f pos = Vector2f(0, 0);
 
 	bool running = true;
 	char i = 0;
@@ -52,6 +54,27 @@ void main(){
 					break;
 			}
 		}
+
+		pos = pos + speed;
+
+		if (pos.x > 800){
+			speed.x = -speed.x;
+			pos += speed *2;
+		}
+		if(pos.y > 600){
+			speed.y = -speed.y;
+			pos += speed *2;
+		}
+		if(pos.x < 0){
+			speed.x = -speed.x;
+			pos += speed *2;
+		}
+		if(pos.y < 0){
+			speed.y = -speed.y;
+			pos += speed *2;
+		}
+
+		t.position = pos;
 		
 		win.clear();
 
