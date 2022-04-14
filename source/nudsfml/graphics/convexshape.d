@@ -51,10 +51,10 @@
  * See_Also:
  * $(SHAPE_LINK), $(RECTANGLESHAPE_LINK), $(CIRCLESHAPE_LINK)
  */
-module dsfml.graphics.convexshape;
+module nudsfml.graphics.convexshape;
 
-import dsfml.system.vector2;
-import dsfml.graphics.shape;
+import nudsfml.system.vector2;
+import nudsfml.graphics.shape;
 
 /**
  * Specialized shape representing a convex polygon.
@@ -76,10 +76,7 @@ class ConvexShape : Shape
     }
 
     /// Destructor.
-    ~this()
-    {
-        import dsfml.system.config;
-        mixin(destructorOutput);
+    ~this() {
     }
 
     @property

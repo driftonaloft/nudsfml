@@ -23,6 +23,9 @@ public import nudsfml.graphics.sprite;
 public import nudsfml.graphics.texture;
 public import nudsfml.graphics.transformable;
 public import nudsfml.graphics.vertexarray;
+public import nudsfml.graphics.circleshape;
+public import nudsfml.graphics.convexshape;
+public import nudsfml.graphics.rectangleshape;
 
 public import nudsfml.window;
 

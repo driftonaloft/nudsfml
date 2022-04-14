@@ -43,10 +43,10 @@
  * See_Also:
  * $(SHAPE_LINK), $(CIRCLESHAPE_LINK), $(CONVEXSHAPE_LINK)
  */
-module dsfml.graphics.rectangleshape;
+module nudsfml.graphics.rectangleshape;
 
-import dsfml.graphics.shape;
-import dsfml.system.vector2;
+import nudsfml.graphics.shape;
+import nudsfml.system.vector2;
 
 /**
  * Specialized shape representing a rectangle.
@@ -67,10 +67,8 @@ class RectangleShape:Shape
     }
 
     /// Destructor.
-    ~this()
-    {
-        import dsfml.system.config;
-        mixin(destructorOutput);
+    ~this() {
+
     }
 
     /// The point count for a rectangle is always 4.

@@ -320,12 +320,10 @@ class Shape : Drawable, Transformable
      * points change (ie. the result of either `getPointCount` or `getPoint` is
      * different).
      */
-    protected void update()
-    {
+    protected void update() {
         // Get the total number of points of the shape
         uint count = pointCount();
-        if (count < 3)
-        {
+        if (count < 3) {
             m_vertices.resize(0);
             m_outlineVertices.resize(0);
             return;
@@ -334,8 +332,7 @@ class Shape : Drawable, Transformable
         m_vertices.resize(count + 2); // + 2 for center and repeated first point
 
         // Position
-        for (uint i = 0; i < count; ++i)
-        {
+        for (uint i = 0; i < count; ++i) {
             m_vertices[i + 1].position = getPoint(i);
         }
         m_vertices[count + 1].position = m_vertices[1].position;

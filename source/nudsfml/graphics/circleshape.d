@@ -49,9 +49,9 @@
  * See_Also:
  * $(SHAPE_LINK), $(RECTANGLESHAPE_LINK), $(CONVEXSHAPE_LINK)
  */
-module nuddsfml.graphics.circleshape;
+module nudsfml.graphics.circleshape;
 
-import nuddsfml.graphics.shape;
+import nudsfml.graphics.shape;
 
 import nudsfml.system.vector2;
 
@@ -84,10 +84,7 @@ class CircleShape : Shape
     }
 
     /// Destructor
-    ~this()
-    {
-        import dsfml.system.config;
-        mixin(destructorOutput);
+    ~this()  {
     }
 
     @property

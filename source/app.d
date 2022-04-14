@@ -23,7 +23,7 @@ void main(){
 	}
 
 
-	RenderWindow win = new RenderWindow(VideoMode(800, 600), "NudSFML Test");
+	RenderWindow win = new RenderWindow(VideoMode(1024, 768), "NudSFML Test");
 	//win.setFramerateLimit(60);
 
 	
@@ -41,6 +41,14 @@ void main(){
 
 	bool running = true;
 	char i = 0;
+
+	RectangleShape rect = new RectangleShape();
+	rect.size(Vector2f(100, 100));
+	rect.fillColor(Color.Red);
+	rect.position(Vector2f(100, 100));
+
+	float angle = 0;
+
 	while(win.isOpen() && running){
 		Event e;
 		while(win.pollEvent(e)){
@@ -75,9 +83,16 @@ void main(){
 		}
 
 		t.position = pos;
+
+		angle += 0.5f;
+		if(angle > 360){
+			angle = 0;
+		}
+
 		
 		win.clear();
 
+		win.draw(rect);
 		win.draw(t);
 
 		win.display();
