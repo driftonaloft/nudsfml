@@ -385,12 +385,8 @@ class RenderWindow : Window, RenderTarget
      *
      * Returns: Size in pixels
      */
-    Vector2u getSize() const
-    {
-        Vector2u temp;
-
-        sfRenderWindow_getSize(sfPtr, &temp.x, &temp.y);
-
+    Vector2u getSize() const {
+        Vector2u temp = cast(Vector2u) sfRenderWindow_getSize(sfPtr);
         return temp;
     }
 
@@ -407,7 +403,8 @@ class RenderWindow : Window, RenderTarget
      */
     override WindowHandle getSystemHandle() const
     {
-        return sfRenderWindow_getSystemHandle(sfPtr);
+        WindowHandle temp = cast(WindowHandle) sfRenderWindow_getSystemHandle(sfPtr);   
+        return temp;
     }
 
     /**
@@ -426,7 +423,8 @@ class RenderWindow : Window, RenderTarget
      */
     override bool setActive(bool active)
     {
-        return sfRenderWindow_setActive(sfPtr, active);
+        int v = active ? 1 : 0;
+        return sfRenderWindow_setActive(sfPtr, cast(sfBool)v) > 0;
     }
 
     /**
@@ -541,9 +539,8 @@ class RenderWindow : Window, RenderTarget
      */
     override void setTitle(const(char)[] newTitle)
     {
-        import std.utf: toUTF32;
-		auto convertedTitle = toUTF32(newTitle);
-        sfRenderWindow_setUnicodeTitle(sfPtr, convertedTitle.ptr, convertedTitle.length);
+        import std.string;
+        sfRenderWindow_setTitle(sfPtr, newTitle.toStringz);
     }
     /**
      * Change the title of the window
@@ -554,8 +551,8 @@ class RenderWindow : Window, RenderTarget
     override void setTitle(const(wchar)[] newTitle)
     {
         import std.utf: toUTF32;
-		auto convertedTitle = toUTF32(newTitle);
-        sfRenderWindow_setUnicodeTitle(sfPtr, convertedTitle.ptr, convertedTitle.length);
+		dstring convertedTitle = toUTF32(newTitle ~ '\0');
+        sfRenderWindow_setUnicodeTitle(sfPtr, cast(uint*)convertedTitle.ptr);
     }
     /**
      * Change the title of the window
@@ -565,9 +562,9 @@ class RenderWindow : Window, RenderTarget
      */
     override void setTitle(const(dchar)[] newTitle)
     {
-    import dsfml.system.string;
+        //import dsfml.system.string;
         auto convertedTitle = newTitle ~ '\000';
-        sfRenderWindow_setUnicodeTitle(sfPtr, newTitle.ptr);
+        sfRenderWindow_setUnicodeTitle(sfPtr,cast(uint*) newTitle.ptr);
     }
 
     /**
@@ -612,7 +609,7 @@ class RenderWindow : Window, RenderTarget
      */
     void clear(Color color = Color.Black)
     {
-        sfRenderWindow_clear(sfPtr, color.r,color.g, color.b, color.a);
+        sfRenderWindow_clear(sfPtr,cast(sfColor)color);
     }
 
     /**

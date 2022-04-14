@@ -11,4 +11,7 @@ struct ContextSettings {
     uint majorVersion = 2;
     /// Minor number of the context version to create.
     uint minorVersion = 0;
+
+    uint attributeFlags = 0;
+    int srgbCapable = 0;
 }
