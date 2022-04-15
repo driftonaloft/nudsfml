@@ -97,13 +97,13 @@ class Window {
 
 	/// Destructor.
 	~this() {
-		//import dsfml.system.config;
+		import nudsfml.system.config;
 		//this takes care of not freeing a null pointer due to inheritance
 		//(RenderWindow does not create the inherited sfWindow)
-		if(m_needsToDelete)
-		{
-			//mixin(destructorOutput);
-			sfWindow_destroy(sfPtr);
+		if(m_needsToDelete) {
+			mixin(destructorOutput);
+			if(sfPtr !is null)
+				sfWindow_destroy(sfPtr);
 		}
 	}
 
@@ -127,19 +127,16 @@ class Window {
 		}
 	}
 
-	@property
-	{
+	@property {
 		/// Get's or set's the window's size.
-		Vector2u size(Vector2u newSize)
-		{
+		Vector2u size(Vector2u newSize) {
 			sfVector2u temp = cast(sfVector2u)(newSize);
 			sfWindow_setSize(sfPtr, temp);
 			return newSize;
 		}
 
 		// ditto
-		Vector2u size() const
-		{
+		Vector2u size() const {
 			Vector2u temp = cast(Vector2u) sfWindow_getSize(sfPtr);
 			return temp;
 		}
@@ -160,15 +157,13 @@ class Window {
      *
 	 * Returns: true if operation was successful, false otherwise.
 	 */
-	bool setActive(bool active)
-	{
+	bool setActive(bool active) {
 		int sfbool = active ? 1 : 0;
 		return sfWindow_setActive(sfPtr, cast(sfBool) sfbool) > 0;
 	}
 
 	///Request the current window to be made the active foreground window.
-	void requestFocus()
-	{
+	void requestFocus() {
 		sfWindow_requestFocus(sfPtr);
 	}
 
@@ -177,8 +172,7 @@ class Window {
 	 *
 	 * Returns: true if the window has focus, false otherwise
 	 */
-	bool hasFocus() const
-	{
+	bool hasFocus() const {
 		return sfWindow_hasFocus(sfPtr) > 0;
 	}
 
@@ -195,8 +189,7 @@ class Window {
 	 * Params:
      * 		limit = Framerate limit, in frames per seconds (use 0 to disable limit).
 	 */
-	void setFramerateLimit(uint limit)
-	{
+	void setFramerateLimit(uint limit) {
 		sfWindow_setFramerateLimit(sfPtr, limit);
 	}
 
@@ -212,8 +205,7 @@ class Window {
 	 *     height = Icon's height, in pixels
 	 *     pixels = Pointer to the array of pixels in memory
 	 */
-	void setIcon(uint width, uint height, const(ubyte[]) pixels)
-	{
+	void setIcon(uint width, uint height, const(ubyte[]) pixels) {
 		sfWindow_setIcon(sfPtr,width, height, pixels.ptr);
 	}
 
@@ -228,8 +220,7 @@ class Window {
 	 * Params:
 	 *     threshold = New threshold, in the range [0, 100].
 	 */
-	void setJoystickThreshold(float threshold)
-	{
+	void setJoystickThreshold(float threshold) {
 		sfWindow_setJoystickThreshold(sfPtr, threshold);
 	}
 
@@ -247,8 +238,7 @@ class Window {
 	 * Deprecated: Use set `setJoystickThreshold` instead.
 	 */
 	deprecated("Use setJoystickThreshold instead.")
-	void setJoystickThreshhold(float threshhold)
-	{
+	void setJoystickThreshhold(float threshhold) {
 		sfWindow_setJoystickThreshold(sfPtr, threshhold);
 	}
 
@@ -264,8 +254,7 @@ class Window {
 	 * Params:
 	 *     enabled = true to enable, false to disable.
 	 */
-	void setKeyRepeatEnabled(bool enabled)
-	{
+	void setKeyRepeatEnabled(bool enabled) {
 		sfWindow_setKeyRepeatEnabled(sfPtr, enabled);
 	}
 
@@ -277,8 +266,7 @@ class Window {
 	 * Params:
      * 		visible = true to show the mouse cursor, false to hide it.
 	 */
-	void setMouseCursorVisible(bool visible)
-	{
+	void setMouseCursorVisible(bool visible) {
 		 sfWindow_setMouseCursorVisible(sfPtr, visible);
 	}
 
@@ -293,20 +281,16 @@ class Window {
 	 * Deprecated: Use the version of setTitle that takes a 'const(dchar)[]'.
 	 */
 	deprecated("Use the version of setTitle that takes a 'const(dchar)[]'.")
-	void setTitle(const(char)[] newTitle)
-	{
-		import std.utf: toUTF32;
-		auto convertedTitle = toUTF32(newTitle ~ '\000');
-		sfWindow_setUnicodeTitle(sfPtr,cast(uint*)convertedTitle.ptr);
+	void setTitle(const(char)[] newTitle) {
+		import std.string;
+		sfWindow_setTitle(sfPtr, newTitle.toStringz);
 	}
 
 	/// ditto
 	deprecated("Use the version of setTitle that takes a 'const(dchar)[]'.")
-	void setTitle(const(wchar)[] newTitle)
-	{
-		import std.utf: toUTF32;
-		auto convertedTitle = toUTF32(newTitle~'\000');
-		sfWindow_setUnicodeTitle(sfPtr, cast(uint*) convertedTitle.ptr);
+	void setTitle(const(wchar)[] newTitle) {
+		import std.utf;
+		sfWindow_setUnicodeTitle(sfPtr, cast(uint*) newTitle.toUTFz!(dchar*));
 	}
 
 	/**
@@ -315,10 +299,9 @@ class Window {
 	 * Params:
      * 		newTitle = New title
 	 */
-	void setTitle(const(dchar)[] newTitle)
-	{
-		auto temp = newTitle ~ '\000';
-		sfWindow_setUnicodeTitle(sfPtr, cast(uint*) temp.ptr);
+	void setTitle(const(dchar)[] newTitle) {
+		import std.utf;
+		sfWindow_setUnicodeTitle(sfPtr, cast(uint*) newTitle.toUTFz!(dchar*));
 	}
 
 	/**

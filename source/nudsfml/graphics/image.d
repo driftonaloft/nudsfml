@@ -20,7 +20,9 @@ class Image {
 
     /// Destructor.
     ~this() {
-        sfImage_destroy(sfPtr);
+        if(sfPtr != null){
+            sfImage_destroy(sfPtr);
+        }
     }
 
     /**

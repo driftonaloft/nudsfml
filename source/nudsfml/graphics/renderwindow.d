@@ -241,9 +241,9 @@ class RenderWindow : Window, RenderTarget
         create(handle, settings);
     }
 
-    ~this()
-    {
-        sfRenderWindow_destroy(sfPtr);
+    ~this() {
+        if (sfPtr != null)
+            sfRenderWindow_destroy(sfPtr);
     }
 
     @property
@@ -551,9 +551,9 @@ class RenderWindow : Window, RenderTarget
      */
     override void setTitle(const(wchar)[] newTitle)
     {
-        import std.utf: toUTF32;
-		dstring convertedTitle = toUTF32(newTitle ~ '\0');
-        sfRenderWindow_setUnicodeTitle(sfPtr, cast(uint*)convertedTitle.ptr);
+        import std.utf;
+		auto convertedTitle = newTitle.toUTFz!(dchar*);
+        sfRenderWindow_setUnicodeTitle(sfPtr, cast(uint*)convertedTitle);
     }
     /**
      * Change the title of the window
@@ -564,8 +564,9 @@ class RenderWindow : Window, RenderTarget
     override void setTitle(const(dchar)[] newTitle)
     {
         //import dsfml.system.string;
-        auto convertedTitle = newTitle ~ '\000';
-        sfRenderWindow_setUnicodeTitle(sfPtr,cast(uint*) newTitle.ptr);
+        import std.utf;
+        auto convertedTitle = newTitle.toUTFz!(dchar*);
+        sfRenderWindow_setUnicodeTitle(sfPtr,cast(uint*) newTitle);
     }
 
     /**
