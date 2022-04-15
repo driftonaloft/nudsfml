@@ -1,6 +1,5 @@
 module nudsfml.graphics.glsl;
 
-
 import nudsfml.graphics.color;
 import nudsfml.graphics.transform;
 

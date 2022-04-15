@@ -55,13 +55,13 @@ import nudsfml.graphics.shape;
 
 import nudsfml.system.vector2;
 
+import std.stdio;
+
 /**
  * Specialized shape representing a circle.
  */
-class CircleShape : Shape
-{
-    private
-    {
+class CircleShape : Shape {
+    private {
         // Radius of the circle
         float m_radius;
         /// Number of points composing the circle
@@ -75,47 +75,39 @@ class CircleShape : Shape
      * 		radius =		Radius of the circle
      * 		pointCount =	Number of points composing the circle
     */
-    this(float radius = 0, uint pointCount = 30)
-    {
+    this(float radius = 0, uint pointCount = 30) {
         m_radius = radius;
         m_pointCount = pointCount;
-
         update();
     }
 
     /// Destructor
-    ~this()  {
+    ~this() {
     }
 
-    @property
-    {
+    @property {
         /// The number of points of the circle.
-        uint pointCount(uint newPointCount)
-        {
+        uint pointCount(uint newPointCount) {
             m_pointCount = newPointCount;
             return newPointCount;
         }
 
         /// ditto
-        override uint pointCount() const
-        {
+        override uint pointCount() const {
             return m_pointCount;
         }
     }
 
-    @property
-    {
+    @property {
         /// The radius of the circle.
-        float radius(float newRadius)
-        {
+        float radius(float newRadius) {
             m_radius = newRadius;
             update();
             return newRadius;
         }
 
         /// ditto
-        float radius() const
-        {
+        float radius() const {
             return m_radius;
         }
     }
@@ -130,8 +122,7 @@ class CircleShape : Shape
      *
      * Returns: Index-th point of the shape.
      */
-    override Vector2f getPoint(uint index) const
-    {
+    override Vector2f getPoint(uint index) const {
         import std.math;
         static const(float) pi = 3.141592654f;
 
@@ -145,8 +136,7 @@ class CircleShape : Shape
 
     /// Clones this CircleShape
     @property
-    CircleShape dup() const
-    {
+    CircleShape dup() const {
         CircleShape temp = new CircleShape(m_radius, m_pointCount);
 
         temp.position = position;
@@ -162,13 +152,23 @@ unittest
 {
     version(DSFML_Unittest_Graphics)
     {
+        import bindbc.sfml;
         import std.stdio;
-        import dsfml.graphics;
+        import nudsfml.graphics;
+
+        writeln("testing sfml");
+
+        if(!loadSFML()){
+            writeln("failed to load sfml");
+}
+
 
         writeln("Unit test for CircleShape");
         auto window = new RenderWindow(VideoMode(800,600), "CircleShape unittest");
+        writeln("window created");
 
         auto circleShape = new CircleShape(20);
+        writeln("circleShape.radius = ", circleShape.radius);
 
         circleShape.fillColor = Color.Blue;
 

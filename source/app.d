@@ -22,7 +22,6 @@ void main(){
 		writeln("failed to load sfml");
 	}
 
-
 	RenderWindow win = new RenderWindow(VideoMode(1024, 768), "NudSFML Test");
 	win.setFramerateLimit(60);
 
@@ -96,5 +95,16 @@ void main(){
 		win.draw(t);
 
 		win.display();
+	}
+}
+
+unittest {
+	import bindbc.sfml;
+	import std.stdio;
+
+	writeln("testing sfml");
+
+	if(!loadSFML()){
+		writeln("failed to load sfml");
 	}
 }

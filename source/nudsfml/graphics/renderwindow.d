@@ -919,9 +919,9 @@ unittest
     version(DSFML_Unittest_Graphics)
     {
         import std.stdio;
-        import dsfml.graphics.image;
-        import dsfml.system.clock;
-        import dsfml.graphics.sprite;
+        import nudsfml.graphics.image;
+        import nudsfml.system.clock;
+        import nudsfml.graphics.sprite;
 
         writeln("Unit test for RenderWindow");
 
@@ -962,9 +962,9 @@ unittest
         auto settings = window.getSettings();
 
         auto image = new Image();
-        image.loadFromFile("res/TestImage.png");
+        image.loadFromFile("data/lain.png");
 
-        window.setIcon(image.getSize().x,image.getSize().x,image.getPixelArray());
+        window.setIcon(image.getSize().x,image.getSize().x,image.getPixelArray()); //validate
 
         auto texture = new Texture();
 

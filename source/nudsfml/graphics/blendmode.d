@@ -46,18 +46,13 @@ struct BlendMode {
     }
 
     /// Blend source and dest according to dest alpha.
-    enum Alpha = BlendMode(Factor.SrcAlpha, Factor.OneMinusSrcAlpha,
-               Equation.Add, Factor.One, Factor.OneMinusSrcAlpha, Equation.Add);
+    enum Alpha = BlendMode(Factor.SrcAlpha, Factor.OneMinusSrcAlpha, Equation.Add, Factor.One, Factor.OneMinusSrcAlpha, Equation.Add);
     /// Add source to dest.
-    enum Add = BlendMode(Factor.SrcAlpha, Factor.One, Equation.Add,
-                         Factor.One, Factor.One, Equation.Add);
+    enum Add = BlendMode(Factor.SrcAlpha, Factor.One, Equation.Add, Factor.One, Factor.One, Equation.Add);
     /// Multiply source and dest.
-    enum Multiply = BlendMode(Factor.DstColor, Factor.Zero, Equation.Add,
-                              Factor.DstColor, Factor.Zero, Equation.Add);
+    enum Multiply = BlendMode(Factor.DstColor, Factor.Zero, Equation.Add, Factor.DstColor, Factor.Zero, Equation.Add);
     /// Overwrite dest with source.
-    enum None = BlendMode(Factor.One, Factor.Zero, Equation.Add, Factor.One,
-                          Factor.Zero, Equation.Add);
-
+    enum None = BlendMode(Factor.One, Factor.Zero, Equation.Add, Factor.One, Factor.Zero, Equation.Add);
 
     /// Source blending factor for the color channels.
     Factor colorSrcFactor = Factor.SrcAlpha;
@@ -86,8 +81,7 @@ struct BlendMode {
      * blendEquation     = Specifies how to combine the source and destination
                            colors and alpha
      */
-    this(Factor sourceFactor, Factor destinationFactor,
-         Equation blendEquation = Equation.Add) {
+    this(Factor sourceFactor, Factor destinationFactor, Equation blendEquation = Equation.Add) {
         colorSrcFactor = sourceFactor;
         colorDstFactor = destinationFactor;
         colorEquation = blendEquation;
@@ -112,9 +106,7 @@ struct BlendMode {
      * alphaBlendEquation     = Specifies how to combine the source and
                                 destination alphas
      */
-    this(Factor colorSourceFactor, Factor colorDestinationFactor,
-              Equation colorBlendEquation, Factor alphaSourceFactor,
-              Factor alphaDestinationFactor, Equation alphaBlendEquation) {
+    this(Factor colorSourceFactor, Factor colorDestinationFactor, Equation colorBlendEquation, Factor alphaSourceFactor, Factor alphaDestinationFactor, Equation alphaBlendEquation) {
         colorSrcFactor = colorSourceFactor;
         colorDstFactor = colorDestinationFactor;
         colorEquation = colorBlendEquation;

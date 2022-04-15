@@ -124,7 +124,7 @@ unittest
     version(DSFML_Unittest_Graphics)
     {
         import std.stdio;
-        import dsfml.graphics;
+        import nudsfml.graphics;
 
         writeln("Unit test for RectangleShape");
         auto window = new RenderWindow(VideoMode(800,600), "RectangleShape unittest");

@@ -349,8 +349,8 @@ class RenderTexture : RenderTarget
         sfRenderStates sfStates;
         sfStates.blendMode = cast(sfBlendMode)states.blendMode;
         sfStates.transform = getFromTransform(states.transform);
-        sfStates.texture = states.texture.sfPtr;
-        sfStates.shader = states.shader.sfPtr;
+        sfStates.texture = states.texture ? states.texture.sfPtr : null;
+        sfStates.shader = states.shader ? states.shader.sfPtr : null;
 
         sfRenderTexture_drawPrimitives(sfPtr, cast(sfVertex*)vertices.ptr, cast(uint)min(uint.max, vertices.length),cast(sfPrimitiveType)type, &sfStates);
     }
@@ -409,7 +409,7 @@ unittest
     version(DSFML_Unittest_Graphics)
     {
         import std.stdio;
-        import dsfml.graphics.sprite;
+        import nudsfml.graphics.sprite;
 
         writeln("Unit tests for RenderTexture");
 

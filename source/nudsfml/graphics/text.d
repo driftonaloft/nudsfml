@@ -919,7 +919,7 @@ unittest
     version(DSFML_Unittest_Graphics)
     {
         import std.stdio;
-        import dsfml.graphics.rendertexture;
+        import nudsfml.graphics.rendertexture;
 
         writeln("Unit test for Text");
 
@@ -928,7 +928,7 @@ unittest
         renderTexture.create(400,200);
 
         auto font = new Font();
-        assert(font.loadFromFile("res/Warenhaus-Standard.ttf"));
+        assert(font.loadFromFile("data/CamingoCode-Regular.ttf"));
 
         Text regular = new Text("Regular", font, 20);
         Text bold = new Text("Bold", font, 20);

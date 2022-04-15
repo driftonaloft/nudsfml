@@ -354,18 +354,16 @@ class Font
     }
 }
 
-unittest
-{
-    version(DSFML_Unittest_Graphics)
-    {
+unittest {
+    version(DSFML_Unittest_Graphics) {
         import std.stdio;
 
-        import dsfml.graphics.text;
+        import nudsfml.graphics.text;
 
         writeln("Unitest for Font");
 
         auto font = new Font();
-        assert(font.loadFromFile("res/Warenhaus-Standard.ttf"));
+        assert(font.loadFromFile("data/CamingoCode-Regular.ttf"));
 
         Text text;
         text = new Text("Sample String", font);
@@ -379,8 +377,7 @@ unittest
 
 
 //private:
-private extern(C++) interface fontInputStream
-{
+private extern(C++) interface fontInputStream {
     long read(void* data, long size);
 
     long seek(long position);
@@ -391,32 +388,26 @@ private extern(C++) interface fontInputStream
 }
 
 
-private class fontStream:fontInputStream
-{
+private class fontStream:fontInputStream {
     private InputStream myStream;
 
-    this(InputStream stream)
-    {
+    this(InputStream stream) {
         myStream = stream;
     }
 
-    extern(C++)long read(void* data, long size)
-    {
+    extern(C++)long read(void* data, long size) {
         return myStream.read(data[0..cast(size_t)size]);
     }
 
-    extern(C++)long seek(long position)
-    {
+    extern(C++)long seek(long position) {
         return myStream.seek(position);
     }
 
-    extern(C++)long tell()
-    {
+    extern(C++)long tell() {
         return myStream.tell();
     }
 
-    extern(C++)long getSize()
-    {
+    extern(C++)long getSize(){
         return myStream.getSize();
     }
 }

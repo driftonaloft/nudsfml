@@ -39,11 +39,10 @@ class Texture
     }
 
     /// Destructor.
-    ~this()
-    {
+    ~this() {
         //import dsfml.system.config;
 //        mixin(destructorOutput);
-        if(!managed) {
+        if(!managed && sfPtr !is null) {
             sfTexture_destroy(sfPtr);
         }
     }

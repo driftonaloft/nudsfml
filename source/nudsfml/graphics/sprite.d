@@ -336,13 +336,13 @@ unittest
     {
         import std.stdio;
 
-        import dsfml.graphics.rendertexture;
+        import nudsfml.graphics.rendertexture;
 
         writeln("Unit test for Sprite");
 
         auto texture = new Texture();
 
-        assert(texture.loadFromFile("res/TestImage.png"));
+        assert(texture.loadFromFile("data/lain.png"));
 
         auto sprite = new Sprite(texture);
 

@@ -60,8 +60,7 @@ import nudsfml.system.vector2;
 /**
  * Define a set of one or more 2D primitives.
  */
-class VertexArray : Drawable
-{
+class VertexArray : Drawable {
     /**
      * The type of primitive to draw.
      *
@@ -81,8 +80,7 @@ class VertexArray : Drawable
      *
      * Creates an empty vertex array.
      */
-    this()
-    {
+    this() {
     }
 
     /**
@@ -92,23 +90,20 @@ class VertexArray : Drawable
      *  type        = Type of primitives
      *  vertexCount = Initial number of vertices in the array
      */
-    this(PrimitiveType type, uint vertexCount = 0)
-    {
+    this(PrimitiveType type, uint vertexCount = 0) {
         primitiveType = type;
         Vertices = new Vertex[vertexCount];
     }
 
-    private this(PrimitiveType type, Vertex[] vertices)
-    {
+    private this(PrimitiveType type, Vertex[] vertices) {
         primitiveType = type;
         Vertices = vertices;
     }
 
     /// Destructor.
-    ~this()
-    {
-        //import dsfml.system.config;
-        //mixin(destructorOutput);
+    ~this() {
+        import nudsfml.system.config;
+        mixin(destructorOutput);
     }
 
     /**
@@ -120,7 +115,6 @@ class VertexArray : Drawable
      * Returns: Bounding rectangle of the vertex array.
      */
     FloatRect getBounds() const {
-        import std.stdio;
         if (Vertices.length>0) {
             float left = Vertices[0].position.x;
             float top = Vertices[0].position.y;
@@ -129,7 +123,6 @@ class VertexArray : Drawable
 
             for (size_t i = 1; i < Vertices.length; ++i) {
                 Vector2f position = Vertices[i].position;
-                writeln( "position: " , position.x , " " , position.y, " left: ", left," top: " ,top ," right: ",right," bottom: ", bottom);
 
                 // Update left and right
                 if (position.x < left)
@@ -143,8 +136,6 @@ class VertexArray : Drawable
                 if (position.y > bottom)
                     bottom = position.y;
             }
-            writeln(top);
-            writeln(FloatRect(left, top, right - left, bottom - top));
             return FloatRect(left, top, right - left, bottom - top);
         } else {
             return FloatRect(0,0,0,0);
@@ -156,8 +147,7 @@ class VertexArray : Drawable
      *
      * Returns: Number of vertices in the array
      */
-    uint getVertexCount() const
-    {
+    uint getVertexCount() const {
         import std.algorithm;
         return cast(uint)min(uint.max, Vertices.length);
     }
@@ -168,8 +158,7 @@ class VertexArray : Drawable
      * Params:
      * 		newVertex = Vertex to add.
      */
-    void append(Vertex newVertex)
-    {
+    void append(Vertex newVertex) {
         Vertices ~= newVertex;
     }
 
@@ -180,8 +169,7 @@ class VertexArray : Drawable
      * deallocate the corresponding memory, so that adding new vertices after
      * clearing doesn't involve reallocating all the memory.
      */
-    void clear()
-    {
+    void clear() {
         Vertices.length = 0;
     }
 
@@ -192,10 +180,8 @@ class VertexArray : Drawable
      *  	renderTarget = Render target to draw to
      *  	renderStates = Current render states
      */
-    override void draw(RenderTarget renderTarget, RenderStates renderStates)
-    {
-        if(Vertices.length != 0)
-        {
+    override void draw(RenderTarget renderTarget, RenderStates renderStates) {
+        if(Vertices.length != 0) {
             renderTarget.draw(Vertices, primitiveType,renderStates);
         }
     }
@@ -211,8 +197,7 @@ class VertexArray : Drawable
      * Params:
      * 		vertexCount	= New size of the array (number of vertices).
      */
-    void resize(uint vertexCount)
-    {
+    void resize(uint vertexCount) {
         Vertices.length = vertexCount;
     }
 
@@ -227,8 +212,7 @@ class VertexArray : Drawable
      *
      * Returns: Reference to the index-th vertex.
      */
-    ref Vertex opIndex(size_t index)
-    {
+    ref Vertex opIndex(size_t index) {
         return Vertices[index];
     }
 
@@ -240,15 +224,15 @@ unittest
     version(DSFML_Unittest_Graphics)
     {
         import std.stdio;
-        import dsfml.graphics.texture;
-        import dsfml.graphics.rendertexture;
-        import dsfml.graphics.color;
+        import nudsfml.graphics.texture;
+        import nudsfml.graphics.rendertexture;
+        import nudsfml.graphics.color;
 
         writeln("Unit test for VertexArray");
 
         auto texture = new Texture();
 
-        assert(texture.loadFromFile("res/TestImage.png"));
+        assert(texture.loadFromFile("data/lain.png"));
 
         auto dimensions = FloatRect(0,0,texture.getSize().x,texture.getSize().y);
 
