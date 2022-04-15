@@ -7,6 +7,7 @@ class Game {
     bool running = true;
 
     RenderWindow win;
+    
     //SceneManager
     //scriptingEngine
     //
@@ -20,8 +21,8 @@ class Game {
         dataDir = dataDir_;
 
         win = new RenderWindow(VideoMode(1024, 768), "NudSFML");
-        //win.setVerticalSyncEnabled(true);
-        win.setFramerateLimit(60);
+        //win.setVerticalSyncEnabled(true); // higher accuracy but more cpu time
+        win.setFramerateLimit(60); // 60 fps max // TODO: make this configurable
 
         systemFont = new Font();
         systemFont.loadFromFile(dataDir ~ "CamingoCode-Regular.ttf");
@@ -72,8 +73,11 @@ class Game {
                     running = false;
                     break;
                 case Event.Type.KeyPressed:
-                    if(e.key.code == Keyboard.Key.Escape)
-                        running = false;
+                    switch(e.key.code) { 
+                        case Keyboard.Key.Escape:  
+                            running = false;
+                            break;
+                    }
                     break;
                 default: break;
             }
