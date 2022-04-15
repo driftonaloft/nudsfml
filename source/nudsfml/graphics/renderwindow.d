@@ -54,7 +54,7 @@
  *    while (window.pollEvent(event))
  *    {
  *        // Request for closing the window
- *        if (event.type == Event.EventType.Closed)
+ *        if (event.type == Event.Type.Closed)
  *            window.close();
  *    }
  *

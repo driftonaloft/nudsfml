@@ -568,28 +568,28 @@ class Window {
 
 Event fromSfEvent(const(sfEvent) sfEvent) {
 	Event event;
-	event.type = cast(Event.EventType)sfEvent.type;
+	event.type = cast(Event.Type)sfEvent.type;
 	switch(event.type){
 		/// The window requested to be closed (no data)
-        case Event.EventType.Closed:
+        case Event.Type.Closed:
 			break;
         /// The window was resized (data in event.size)
-        case Event.EventType.Resized:
+        case Event.Type.Resized:
 			event.size.width = sfEvent.size.width;
 			event.size.height = sfEvent.size.height;
 			break;
         /// The window lost the focus (no data)
-        case Event.EventType.LostFocus:
+        case Event.Type.LostFocus:
 			break;
         /// The window gained the focus (no data)
-        case Event.EventType.GainedFocus:
+        case Event.Type.GainedFocus:
 			break;
         /// A character was entered (data in event.text)
-        case Event.EventType.TextEntered:
+        case Event.Type.TextEntered:
 			event.text.unicode = sfEvent.text.unicode;
 			break;
         /// A key was pressed (data in event.key)
-        case Event.EventType.KeyPressed:
+        case Event.Type.KeyPressed:
 			event.key.code = cast(Keyboard.Key)sfEvent.key.code;
 			event.key.alt = sfEvent.key.alt > 0;
 			event.key.control = sfEvent.key.control > 0;
@@ -597,7 +597,7 @@ Event fromSfEvent(const(sfEvent) sfEvent) {
 			event.key.system = sfEvent.key.system > 0;
 			break;
         /// A key was released (data in event.key)
-        case Event.EventType.KeyReleased:
+        case Event.Type.KeyReleased:
 			event.key.code = cast(Keyboard.Key)sfEvent.key.code;
 			event.key.alt = sfEvent.key.alt > 0;
 			event.key.control = sfEvent.key.control > 0;
@@ -605,86 +605,86 @@ Event fromSfEvent(const(sfEvent) sfEvent) {
 			event.key.system = sfEvent.key.system > 0;
 			break;
         /// The mouse wheel was scrolled (data in event.mouseWheel)
-        case Event.EventType.MouseWheelMoved:
+        case Event.Type.MouseWheelMoved:
 			event.mouseWheel.delta = sfEvent.mouseWheel.delta;
 			event.mouseWheel.x = sfEvent.mouseWheel.x;
 			event.mouseWheel.y = sfEvent.mouseWheel.y;
 			break;
 		/// The mouse cursor moved (data in event.mouseMove)
-		case Event.EventType.MouseMoved:
+		case Event.Type.MouseMoved:
 			event.mouseMove.x = sfEvent.mouseMove.x;
 			event.mouseMove.y = sfEvent.mouseMove.y;
 			break;
         /// The mouse wheel was scrolled (data in event.mouseWheelScroll)
-        case Event.EventType.MouseWheelScrolled:
+        case Event.Type.MouseWheelScrolled:
 			event.mouseWheel.delta = sfEvent.mouseWheel.delta;
 			event.mouseWheel.x = sfEvent.mouseWheel.x;
 			event.mouseWheel.y = sfEvent.mouseWheel.y;
 			break;
         /// A mouse button was pressed (data in event.mouseButton)
-        case Event.EventType.MouseButtonPressed:
+        case Event.Type.MouseButtonPressed:
 			event.mouseButton.button = cast(Mouse.Button)sfEvent.mouseButton.button;
 			event.mouseButton.x = sfEvent.mouseButton.x;
 			event.mouseButton.y = sfEvent.mouseButton.y;
 			break;
         /// A mouse button was released (data in event.mouseButton)
-        case Event.EventType.MouseButtonReleased:
+        case Event.Type.MouseButtonReleased:
 			event.mouseButton.button = cast(Mouse.Button)sfEvent.mouseButton.button;
 			event.mouseButton.x = sfEvent.mouseButton.x;
 			event.mouseButton.y = sfEvent.mouseButton.y;
 			break;
         /// The mouse cursor entered the area of the window (no data)
-        case Event.EventType.MouseEntered:
+        case Event.Type.MouseEntered:
 			break;
         /// The mouse cursor left the area of the window (no data)
-        case Event.EventType.MouseLeft:
+        case Event.Type.MouseLeft:
 			break;
         /// A joystick button was pressed (data in event.joystickButton)
-        case Event.EventType.JoystickButtonPressed:
+        case Event.Type.JoystickButtonPressed:
 			event.joystickButton.button = sfEvent.joystickButton.button;
 			event.joystickButton.joystickId = sfEvent.joystickButton.joystickId;
 			break;
         /// A joystick button was released (data in event.joystickButton)
-        case Event.EventType.JoystickButtonReleased:
+        case Event.Type.JoystickButtonReleased:
 			event.joystickButton.button = sfEvent.joystickButton.button;
 			event.joystickButton.joystickId = sfEvent.joystickButton.joystickId;
 			break;
         /// The joystick moved along an axis (data in event.joystickMove)
-        case Event.EventType.JoystickMoved:
+        case Event.Type.JoystickMoved:
 			event.joystickMove.axis = sfEvent.joystickMove.axis;
 			event.joystickMove.joystickId = sfEvent.joystickMove.joystickId;
 			event.joystickMove.position = sfEvent.joystickMove.position;
 			break;
         /// A joystick was connected (data in event.joystickConnect)
-        case Event.EventType.JoystickConnected:
+        case Event.Type.JoystickConnected:
 			event.joystickConnect.joystickId = sfEvent.joystickConnect.joystickId;
 			break;
         /// A joystick was disconnected (data in event.joystickConnect)
-        case Event.EventType.JoystickDisconnected:
+        case Event.Type.JoystickDisconnected:
 			event.joystickConnect.joystickId = sfEvent.joystickConnect.joystickId;
 			break;
         /// A touch event began (data in event.touch)
-        /*case Event.EventType.TouchBegan:
+        /*case Event.Type.TouchBegan:
 			event.touch.finger = sfEvent.touch.finger;
 			event.touch.x = sfEvent.touch.x;
 			event.touch.y = sfEvent.touch.y;
 
 			break;
         /// A touch moved (data in event.touch)
-        case Event.EventType.TouchMoved:
+        case Event.Type.TouchMoved:
 			event.touch.finger = sfEvent.touch.finger;
 			event.touch.x = sfEvent.touch.x;
 			event.touch.y = sfEvent.touch.y;
 
 			break;
         /// A touch ended (data in event.touch)
-        case Event.EventType.TouchEnded:
+        case Event.Type.TouchEnded:
 			event.touch.finger = sfEvent.touch.finger;
 			event.touch.x = sfEvent.touch.x;
 			event.touch.y = sfEvent.touch.y;
 			break;
         /// A sensor value changed (data in event.sensor)
-        case Event.EventType.SensorChanged:
+        case Event.Type.SensorChanged:
 			event.sensor.type = sfEvent.sensor.type;
 			event.sensor.x = sfEvent.sensor.x;
 			event.sensor.y = sfEvent.sensor.y;

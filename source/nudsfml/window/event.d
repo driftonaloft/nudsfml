@@ -217,8 +217,7 @@ struct Event
     }
 
     /// Type of the event.
-    enum EventType
-    {
+    enum Type {
         /// The window requested to be closed (no data)
         Closed,
         /// The window was resized (data in event.size)
@@ -271,7 +270,7 @@ struct Event
     }
 
     ///Type of the event
-    EventType type;
+    Type type;
 
     union
     {

@@ -53,7 +53,7 @@ void main(){
 		Event e;
 		while(win.pollEvent(e)){
 			switch(e.type){
-				case Event.EventType.KeyPressed:
+				case Event.Type.KeyPressed:
 					if(e.key.code == Keyboard.Key.Escape){
 						running = false;
 					}
