@@ -119,36 +119,34 @@ class VertexArray : Drawable
      *
      * Returns: Bounding rectangle of the vertex array.
      */
-    FloatRect getBounds() const
-    {
-        if (Vertices.length>0)
-        {
+    FloatRect getBounds() const {
+        import std.stdio;
+        if (Vertices.length>0) {
             float left = Vertices[0].position.x;
             float top = Vertices[0].position.y;
             float right = Vertices[0].position.x;
             float bottom = Vertices[0].position.y;
 
-            for (size_t i = 1; i < Vertices.length; ++i)
-            {
+            for (size_t i = 1; i < Vertices.length; ++i) {
                 Vector2f position = Vertices[i].position;
+                writeln( "position: " , position.x , " " , position.y, " left: ", left," top: " ,top ," right: ",right," bottom: ", bottom);
 
                 // Update left and right
                 if (position.x < left)
                     left = position.x;
-                else if (position.x > right)
+                if (position.x > right)
                     right = position.x;
 
                 // Update top and bottom
-                if (position.y < top)
+                if (position.y <= top)
                     top = position.y;
-                else if (position.y > bottom)
+                if (position.y > bottom)
                     bottom = position.y;
             }
-
+            writeln(top);
+            writeln(FloatRect(left, top, right - left, bottom - top));
             return FloatRect(left, top, right - left, bottom - top);
-        }
-        else
-        {
+        } else {
             return FloatRect(0,0,0,0);
         }
     }

@@ -321,6 +321,8 @@ class Shape : Drawable, Transformable
      * different).
      */
     protected void update() {
+
+        import std.stdio;
         // Get the total number of points of the shape
         uint count = pointCount();
         if (count < 3) {
@@ -341,17 +343,29 @@ class Shape : Drawable, Transformable
         m_vertices[0] = m_vertices[1]; // so that the result of getBounds() is correct
         m_insideBounds = m_vertices.getBounds();
 
+
+        writeln(count);
+        for(int i; i < m_vertices.getVertexCount; ++i) {
+            writeln(m_vertices[i].position);
+        }
+        writeln(m_insideBounds);
+
+
         // Compute the center and make it the first vertex
         m_vertices[0].position.x = m_insideBounds.left + m_insideBounds.width / 2;
         m_vertices[0].position.y = m_insideBounds.top + m_insideBounds.height / 2;
 
-        foreach(v : m0)vertices)
+
+        writeln(count);
+        for(int i; i < m_vertices.getVertexCount; ++i) {
+            writeln(m_vertices[i].position);
+        }
 
         // Color
         updateFillColors();
 
         // Texture coordinates
-        updateTexCoords();
+        updateTexCoords(); 
 
         // Outline
         updateOutline();

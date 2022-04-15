@@ -24,11 +24,11 @@ void main(){
 
 
 	RenderWindow win = new RenderWindow(VideoMode(1024, 768), "NudSFML Test");
-	//win.setFramerateLimit(60);
+	win.setFramerateLimit(60);
 
 	
 	Font f = new Font();
-	if(!f.loadFromFile("/Users/drifton/projects/nudsfml/data/CamingoCode-Regular.ttf")){
+	if(!f.loadFromFile("data/CamingoCode-Regular.ttf")){
 		writeln("failed to load font");
 	}
 	

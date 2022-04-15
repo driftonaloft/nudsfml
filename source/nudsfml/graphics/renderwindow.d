@@ -714,7 +714,7 @@ class RenderWindow : Window, RenderTarget
             sfRenderWindow_destroy(sfPtr);
         }
         //verify this is correct
-        sfPtr = sfRenderWindow_createFromHandle(cast(void*)&handle, cast(sfContextSettings*)&settings);
+        sfPtr = sfRenderWindow_createFromHandle(cast(sfWindowHandle)&handle, cast(sfContextSettings*)&settings);
     }
 
     /**

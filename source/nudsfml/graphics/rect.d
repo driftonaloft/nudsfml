@@ -12,9 +12,9 @@ struct Rect(T)
     T width = 0;;
     T height = 0;
 
-    this(T rectLeft, T rectRight, T rectWidth, T rectHeight){
+    this(T rectLeft, T rectTop, T rectWidth, T rectHeight){
         left = rectLeft;
-        top = rectHeight;
+        top = rectTop;
         width = rectWidth;
         height = rectHeight;
     }
