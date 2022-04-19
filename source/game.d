@@ -7,7 +7,7 @@ class Game {
     bool running = true;
 
     RenderWindow win;
-    
+     
     //SceneManager
     //scriptingEngine
     //
