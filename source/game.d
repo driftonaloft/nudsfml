@@ -1,13 +1,24 @@
 module game;
 
 import nudsfml.graphics;
+import nudsfml.system;
+
+import std.stdio;
+
+import gamemap;
 
 class Game {
     string dataDir;
     bool running = true;
 
     RenderWindow win;
+<<<<<<< HEAD
      
+=======
+
+    GameMap map;
+    
+>>>>>>> e7412f833c8ed7fffb8e825349717493a3e30270
     //SceneManager
     //scriptingEngine
     //
@@ -16,6 +27,8 @@ class Game {
     Text debugText;
 
     bool doDrawDebug = false;
+
+    Clock gameTick;
 
     this(string dataDir_ = "data/"){
         dataDir = dataDir_;
@@ -30,6 +43,11 @@ class Game {
         debugText = new Text("Test", systemFont, 16);
         doDrawDebug = true;
         //create initial resources
+
+        map = new GameMap();
+        map.addApple(5,4);
+
+        gameTick = new Clock();
     } 
 
 
@@ -40,13 +58,15 @@ class Game {
 
     void run(){
         while(running){
+            float dt = gameTick.restart().asSeconds();
             handleEvents();
-            update();
+            update(dt);
             draw();
         }
     }
 
-    void update(){
+    void update(float dt){
+        map.update(dt); 
 
     }
 
@@ -54,6 +74,7 @@ class Game {
         win.clear();
 
         //draw stuff here 
+        map.draw(Vector2f(0,16), win);
         
         drawDebug();
         win.display();
@@ -77,6 +98,15 @@ class Game {
                         case Keyboard.Key.Escape:  
                             running = false;
                             break;
+                        case Keyboard.Key.F12:
+                            doDrawDebug = !doDrawDebug;
+                            break;
+                        case Keyboard.Key.F11:
+                            auto screenShot = win.capture();
+                            writeln("Saved screenshot to screenShot.png");
+                            screenShot.saveToFile("screenshot.png");
+                            break;
+                        default: break;
                     }
                     break;
                 default: break;
