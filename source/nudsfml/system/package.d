@@ -11,3 +11,12 @@ public import nudsfml.system.thread;
 public import nudsfml.system.time;
 public import nudsfml.system.vector2;
 public import nudsfml.system.vector3;
+
+import bindbc.sfml;
+
+static this() {
+	if(!loadSFML()){
+        import std.stdio;
+		writeln("failed to load sfml");
+	}
+}

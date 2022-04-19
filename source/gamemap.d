@@ -43,12 +43,22 @@ class GameMap {
 
     Texture tex;
 
-    int addApple(int x, int y) {
+    AppleEntity addApple(int x, int y) {
         AppleEntity apple = new AppleEntity(tex);
+        apple.mapLocation = Vector2i(x, y);
         apple.position = Vector2f(x*gridWidth, y*gridHeight);
         entities ~= apple;
+        sortEntities();
+        return apple;
+    }
 
-        entities.sort!((x,y) => x.position.y > y.position.y);
+    void addSnake(ref SnakeEntity snakepart){
+        entities ~= snakepart;
+        sortEntities();
+    }
+
+    void sortEntities() {
+        entities.sort!((a,b) => a.position.y > b.position.y);
     }
 
     void  update(float deltaTime){
@@ -84,9 +94,6 @@ class GameMap {
         gridHeight = 32;
         tileWidth = 32;
         tileHeight = 48;
-
-        
-
 
         tiles.length = (width * height *2);
 

@@ -12,9 +12,7 @@ import nudsfml.system;
 //handle loading and setting up configurations for the application
 
 void main(){
-	if(!loadSFML()){
-		writeln("failed to load sfml");
-	}
+
 
 	Game game  = new Game();
 	game.startup();

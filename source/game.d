@@ -6,22 +6,22 @@ import nudsfml.system;
 import std.stdio;
 
 import gamemap;
+import gameentity;
+import snake;
 
 class Game {
     string dataDir;
     bool running = true;
 
     RenderWindow win;
-<<<<<<< HEAD
      
-=======
-
     GameMap map;
-    
->>>>>>> e7412f833c8ed7fffb8e825349717493a3e30270
+    AppleEntity [] apples;
     //SceneManager
     //scriptingEngine
     //
+
+    Snake snake;
 
     Font systemFont;
     Text debugText;
@@ -45,7 +45,12 @@ class Game {
         //create initial resources
 
         map = new GameMap();
-        map.addApple(5,4);
+        apples ~= map.addApple(5,4);
+
+        snake = new Snake(this);
+        snake.headPosition = Vector2i(map.width / 2, map.height / 2);
+        snake.direction = Direction.Up;
+        snake.generate(3);
 
         gameTick = new Clock();
     } 
@@ -66,8 +71,25 @@ class Game {
     }
 
     void update(float dt){
+        if(Keyboard.isKeyPressed(Keyboard.Key.Up)){
+            if(snake.canDirection(Direction.Up)){
+                snake.direction = Direction.Up;
+            }
+        } else if(Keyboard.isKeyPressed(Keyboard.Key.Right)){
+            if(snake.canDirection(Direction.Right)){
+                snake.direction = Direction.Right;
+            }
+        } else if(Keyboard.isKeyPressed(Keyboard.Key.Down)){
+            if(snake.canDirection(Direction.Down)){
+                snake.direction = Direction.Down;
+            }
+        } else if(Keyboard.isKeyPressed(Keyboard.Key.Left)){
+            if(snake.canDirection(Direction.Left)){
+                snake.direction = Direction.Left;
+            }
+        }
         map.update(dt); 
-
+        snake.update(dt);
     }
 
     void draw(){
@@ -97,6 +119,12 @@ class Game {
                     switch(e.key.code) { 
                         case Keyboard.Key.Escape:  
                             running = false;
+                            break;
+                        case Keyboard.Key.F9:
+                            snake.addPart();
+                            break;
+                        case Keyboard.Key.F10:
+                            snake.move();
                             break;
                         case Keyboard.Key.F12:
                             doDrawDebug = !doDrawDebug;
