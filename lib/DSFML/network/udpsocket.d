@@ -104,13 +104,13 @@
  * See_Also:
  * $(SOCKET_LINK), $(TCPSOCKET_LINK), $(PACKET_LINK)
  */
-module dsfml.network.udpsocket;
+module nudsfml.network.udpsocket;
 
-import dsfml.network.ipaddress;
-import dsfml.network.packet;
-import dsfml.network.socket;
+import nudsfml.network.ipaddress;
+import nudsfml.network.packet;
+import nudsfml.network.socket;
 
-import dsfml.system.err;
+import nudsfml.system.err;
 
 /**
  * Specialized socket using the UDP protocol.
@@ -131,7 +131,7 @@ class UdpSocket:Socket
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfUdpSocket_destroy(sfPtr);
     }

@@ -56,10 +56,10 @@
  * See_Also:
  * $(SOUNDRECORDER_LINK)
  */
-module dsfml.audio.soundbufferrecorder;
+module nudsfml.audio.soundbufferrecorder;
 
-import dsfml.audio.soundrecorder;
-import dsfml.audio.soundbuffer;
+import nudsfml.audio.soundrecorder;
+import nudsfml.audio.soundbuffer;
 
 /**
  * Specialized SoundRecorder which stores the captured audio data into a sound
@@ -83,7 +83,7 @@ class SoundBufferRecorder : SoundRecorder
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
     }
 
@@ -151,10 +151,10 @@ unittest
     version(DSFML_Unittest_Audio)
     {
         import std.stdio;
-        import dsfml.window.keyboard;
-        import dsfml.audio.sound;
-        import dsfml.system.clock;
-        import dsfml.system.sleep;
+        import nudsfml.window.keyboard;
+        import nudsfml.audio.sound;
+        import nudsfml.system.clock;
+        import nudsfml.system.sleep;
 
         writeln("Unit test for SoundBufferRecorder.");
 

@@ -103,7 +103,7 @@
  * See_Also:
  * $(TCPSOCKET_LINK), $(UDPSOCKET_LINK)
  */
-module dsfml.network.packet;
+module nudsfml.network.packet;
 
 import std.traits;
 import std.range;
@@ -130,7 +130,7 @@ class Packet
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
     }
 
@@ -319,7 +319,7 @@ package class SfPacket
     //Destructor
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfPacket_destroy(sfPtr);
     }
@@ -348,10 +348,10 @@ unittest
     {
         import std.stdio;
 
-        import dsfml.network.socket;
-        import dsfml.network.tcpsocket;
-        import dsfml.network.tcplistener;
-        import dsfml.network.ipaddress;
+        import nudsfml.network.socket;
+        import nudsfml.network.tcpsocket;
+        import nudsfml.network.tcplistener;
+        import nudsfml.network.ipaddress;
 
         writeln("Unittest for Packet");
 

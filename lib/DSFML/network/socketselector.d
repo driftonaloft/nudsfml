@@ -114,13 +114,13 @@
  * See_Also:
  * $(SOCKET_LINK)
  */
-module dsfml.network.socketselector;
+module nudsfml.network.socketselector;
 
-import dsfml.network.tcplistener;
-import dsfml.network.tcpsocket;
-import dsfml.network.udpsocket;
+import nudsfml.network.tcplistener;
+import nudsfml.network.tcpsocket;
+import nudsfml.network.udpsocket;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
 /**
  * Multiplexer that allows to read from multiple sockets.
@@ -138,7 +138,7 @@ class SocketSelector
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfSocketSelector_destroy(sfPtr);
     }
@@ -291,7 +291,7 @@ unittest
     version(DSFML_Unittest_Network)
     {
         import std.stdio;
-        import dsfml.network.ipaddress;
+        import nudsfml.network.ipaddress;
 
         writeln("Unittest for SocketSelector");
 

@@ -71,45 +71,47 @@
  * See_Also:
  * $(SOUND_LINK), $(SOUNDSTREAM_LINK)
  */
-module dsfml.audio.music;
+module nudsfml.audio.music;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
-import dsfml.system.mutex;
-import dsfml.system.inputstream;
+import nudsfml.system.mutex;
+import nudsfml.system.inputstream;
 
-import dsfml.audio.soundstream;
+import nudsfml.audio.soundstream;
 
 
 /**
  * Streamed music played from an audio file.
  */
-class Music : SoundStream
+class Music //: SoundStream
 {
-    import dsfml.audio.inputsoundfile;
+    //import nudsfml.audio.inputsoundfile;
+    sfMusic * sfPtr;
 
-    private
-    {
-        InputSoundFile m_file;
+    private {
+        //InputSoundFile m_file;
         Time m_duration;
         short[] m_samples;
         Mutex m_mutex;
     }
 
     /// Default constructor.
-    this()
-    {
-        m_file = new InputSoundFile();
+    this() {
+        //m_file = new InputSoundFile();
         m_mutex = new Mutex();
-
-        super();
+        //super();
     }
 
     /// Destructor
-    ~this()
-    {
-        import dsfml.system.config;
+    ~this() {
+        import nudsfml.system.config;
         mixin(destructorOutput);
+
+        if(sfPtr != null){
+            sfMusic_destroy(sfPtr);
+            sfPtr = null;
+        }
 
         /*
          * Calling stop() causes a segmentation fault when m_mutex is
@@ -136,19 +138,19 @@ class Music : SoundStream
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool openFromFile(string filename)
-    {
+    bool openFromFile(string filename) {
         //stop music if already playing
         stop();
 
-        if(!m_file.openFromFile(filename))
-        {
-            return false;
+        import std.string;
+        if(sfPtr != null){
+            sfMusic_destroy(sfPtr);
         }
+        sfPtr = sfMusic_createFromFile(filename.toStringz);
 
         initialize();
 
-        return true;
+        return sfPter != null;
     }
 
     /**
@@ -168,17 +170,35 @@ class Music : SoundStream
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool openFromMemory(const(void)[] data)
-    {
+    bool openFromMemory(const(void)[] data) {
         stop();
 
-        if(!m_file.openFromMemory(data))
-        {
-            return false;
+        if(sfPtr != null){
+            sfMusic_destroy(sfPtr);
         }
 
         initialize();
-        return true;
+
+        sfPtr = sfMusic_createFromMemory(data.ptrm , data.length);
+        return  sfPtr != null;
+    }
+
+    void play() {
+        if(sfPtr != null){
+            sfMusic_play(sfPtr);
+        }
+    }
+
+    void pause() {
+        if(sfPtr != null){
+            sfMusic_pause(sfPtr);
+        }
+    }
+
+    void stop() {
+        if(sfPtr != null){
+            sfMusic_stop(sfPtr);
+        }
     }
 
     /**
@@ -198,6 +218,8 @@ class Music : SoundStream
      *
      * Returns: true if loading succeeded, false if it failed.
      */
+
+    /* 
     bool openFromStream(InputStream stream)
     {
         stop();
@@ -211,14 +233,14 @@ class Music : SoundStream
 
         return true;
     }
+    */
 
     /**
      * Get the total duration of the music.
      *
      * Returns: Music duration
      */
-    Time getDuration() const
-    {
+    Time getDuration() const {
         return m_duration;
     }
 
@@ -237,7 +259,7 @@ class Music : SoundStream
          */
         override bool onGetData(ref const(short)[] samples)
         {
-            import dsfml.system.lock;
+            import nudsfml.system.lock;
 
             Lock lock = Lock(m_mutex);
 
@@ -256,7 +278,7 @@ class Music : SoundStream
          */
         override void onSeek(Time timeOffset)
         {
-            import dsfml.system.lock: Lock;
+            import nudsfml.system.lock: Lock;
 
             auto lock = Lock(m_mutex);
 
@@ -284,19 +306,21 @@ class Music : SoundStream
         {
             size_t sampleCount = cast(size_t)m_file.getSampleCount();
 
-            uint channelCount = m_file.getChannelCount();
+            uint channelCount = sfMusic_getChannelCount(sfPtr);
 
-            uint sampleRate = m_file.getSampleRate();
+            uint sampleRate = sfMusic_getSampleRate(sfPtr);
 
             // Compute the music duration
-            m_duration = microseconds(sampleCount * 1_000_000 / sampleRate /
+            m_duration = cast(Time) sfMusic_getDuration(sfptr);
+            
+            microseconds(sampleCount * 1_000_000 / sampleRate /
                                 channelCount);
 
             // Resize the internal buffer so that it can contain 1 second of audio samples
             m_samples.length = sampleRate * channelCount;
 
             // Initialize the stream
-            super.initialize(channelCount, sampleRate);
+           // super.initialize(channelCount, sampleRate);
         }
     }
 }
@@ -306,7 +330,7 @@ unittest
     version(DSFML_Unittest_Audio)
     {
         import std.stdio;
-        import dsfml.system.clock;
+        import nudsfml.system.clock;
 
         writeln("Unit test for Music Class");
 

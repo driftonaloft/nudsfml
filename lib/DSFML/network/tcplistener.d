@@ -65,12 +65,12 @@
  * See_Also:
  * $(TCPSOCKET_LINK), $(SOCKET_LINK)
  */
-module dsfml.network.tcplistener;
+module nudsfml.network.tcplistener;
 
-import dsfml.network.ipaddress;
-import dsfml.network.socket;
-import dsfml.network.tcpsocket;
-import dsfml.system.err;
+import nudsfml.network.ipaddress;
+import nudsfml.network.socket;
+import nudsfml.network.tcpsocket;
+import nudsfml.system.err;
 
 /**
  * Socket that listens to new TCP connections.
@@ -88,7 +88,7 @@ class TcpListener:Socket
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfTcpListener_destroy(sfPtr);
     }
@@ -174,7 +174,7 @@ unittest
     version(DSFML_Unittest_Network)
     {
         import std.stdio;
-        import dsfml.network.ipaddress;
+        import nudsfml.network.ipaddress;
 
         writeln("Unittest for Listener");
         //socket connecting to server

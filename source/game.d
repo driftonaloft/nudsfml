@@ -22,6 +22,7 @@ class Game {
     //
 
     Snake snake;
+    bool doMove = true;
 
     Font systemFont;
     Text debugText;
@@ -129,10 +130,13 @@ class Game {
                         case Keyboard.Key.F12:
                             doDrawDebug = !doDrawDebug;
                             break;
-                        case Keyboard.Key.F11:
+                        case Keyboard.Key.P:
                             auto screenShot = win.capture();
                             writeln("Saved screenshot to screenShot.png");
                             screenShot.saveToFile("screenshot.png");
+                            break;
+                        case Keyboard.Key.Space:
+                            doMove = !doMove;
                             break;
                         default: break;
                     }

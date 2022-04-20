@@ -123,9 +123,9 @@ unittest
 {
 	version(DSFML_Unittest_System)
 	{
-		import dsfml.system.thread;
-		import dsfml.system.mutex;
-		import dsfml.system.sleep;
+		import nudsfml.system.thread;
+		import nudsfml.system.mutex;
+		import nudsfml.system.sleep;
 		import std.stdio;
 
 		Mutex mutex = new Mutex();

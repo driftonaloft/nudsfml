@@ -29,19 +29,19 @@
  * Socket-based communication, utilities and higher-level network protocols
  * (HTTP, FTP).
  */
-module dsfml.network;
+module nudsfml.network;
 
 public
 {
-	import dsfml.system;
+	import nudsfml.system;
 
-	import dsfml.network.ftp;
-	import dsfml.network.http;
-	import dsfml.network.ipaddress;
-	import dsfml.network.packet;
-	import dsfml.network.socket;
-	import dsfml.network.socketselector;
-	import dsfml.network.tcplistener;
-	import dsfml.network.tcpsocket;
-	import dsfml.network.udpsocket;
+	import nudsfml.network.ftp;
+	import nudsfml.network.http;
+	import nudsfml.network.ipaddress;
+	import nudsfml.network.packet;
+	import nudsfml.network.socket;
+	import nudsfml.network.socketselector;
+	import nudsfml.network.tcplistener;
+	import nudsfml.network.tcpsocket;
+	import nudsfml.network.udpsocket;
 }

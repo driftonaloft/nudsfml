@@ -52,9 +52,11 @@
  * Listener.globalVolume = 50;
  * ---
  */
-module dsfml.audio.listener;
+module nudsfml.audio.listener;
 
-import dsfml.system.vector3;
+import nudsfml.system.vector3;
+
+import bindbc.sfml.audio;
 
 /**
  * The audio listener is the point in the scene from where all the sounds are
@@ -298,20 +300,4 @@ unittest
     }
 }
 
-private extern (C):
 
-void sfListener_setGlobalVolume(float volume);
-
-float sfListener_getGlobalVolume();
-
-void sfListener_setPosition(float x, float y, float z);
-
-void sfListener_getPosition(float* x, float* y, float* z);
-
-void sfListener_setDirection(float x, float y, float z);
-
-void sfListener_getDirection(float* x, float* y, float* z);
-
-void sfListener_setUpVector(float x, float y, float z);
-
-void sfListener_getUpVector(float* x, float* y, float* z);

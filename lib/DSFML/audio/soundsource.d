@@ -37,9 +37,9 @@
  * See_Also:
  * $(SOUND_LINK), $(SOUNDSTREAM_LINK)
  */
-module dsfml.audio.soundsource;
+module nudsfml.audio.soundsource;
 
-import dsfml.system.vector3;
+import nudsfml.system.vector3;
 
 /**
  * Interface defining a sound's properties.

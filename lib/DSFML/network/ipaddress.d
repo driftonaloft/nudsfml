@@ -66,9 +66,9 @@
  * IpAddress a9 = IpAddress.getPublicAddress();
  * ---
  */
-module dsfml.network.ipaddress;
+module nudsfml.network.ipaddress;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
 /**
  * Encapsulate an IPv4 network address.

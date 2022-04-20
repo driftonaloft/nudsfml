@@ -98,15 +98,15 @@
  * See_Also:
  * $(SOCKET_LINK), $(UDPSOCKET_LINK), $(PACKET_LINK)
  */
-module dsfml.network.tcpsocket;
+module nudsfml.network.tcpsocket;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
-import dsfml.network.ipaddress;
-import dsfml.network.packet;
-import dsfml.network.socket;
+import nudsfml.network.ipaddress;
+import nudsfml.network.packet;
+import nudsfml.network.socket;
 
-import dsfml.system.err;
+import nudsfml.system.err;
 
 /**
  * Specialized socket using the TCP protocol.
@@ -124,7 +124,7 @@ class TcpSocket:Socket
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfTcpSocket_destroy(sfPtr);
     }
@@ -318,7 +318,7 @@ unittest
     version(DSFML_Unittest_Network)
     {
         import std.stdio;
-        import dsfml.network.tcplistener;
+        import nudsfml.network.tcplistener;
 
         writeln("Unittest for Tcp Socket");
 

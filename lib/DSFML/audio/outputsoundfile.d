@@ -54,10 +54,10 @@
  * See_Also:
  * $(INPUTSOUNDFILE_LINK)
  */
-module dsfml.audio.outputsoundfile;
+module nudsfml.audio.outputsoundfile;
 
 import std.string;
-import dsfml.system.err;
+import nudsfml.system.err;
 
 /**
  * Provide write access to sound files.
@@ -75,7 +75,7 @@ class OutputSoundFile
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config: destructorOutput;
+        import nudsfml.system.config: destructorOutput;
         mixin(destructorOutput);
         sfOutputSoundFile_destroy(m_soundFile);
     }

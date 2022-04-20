@@ -26,20 +26,20 @@
  */
 
 /// Sounds, streaming (musics or custom sources), recording, spatialization.
-module dsfml.audio;
+module nudsfml.audio;
 
 public
 {
-    import dsfml.audio.inputsoundfile;
-    import dsfml.audio.listener;
-    import dsfml.audio.music;
-    import dsfml.audio.outputsoundfile;
-    import dsfml.audio.sound;
-    import dsfml.audio.soundbuffer;
-    import dsfml.audio.soundbufferrecorder;
-    import dsfml.audio.soundrecorder;
-    import dsfml.audio.soundsource;
-    import dsfml.audio.soundstream;
+    import nudsfml.audio.inputsoundfile;
+    import nudsfml.audio.listener;
+    import nudsfml.audio.music;
+    import nudsfml.audio.outputsoundfile;
+    import nudsfml.audio.sound;
+    import nudsfml.audio.soundbuffer;
+    import nudsfml.audio.soundbufferrecorder;
+    import nudsfml.audio.soundrecorder;
+    import nudsfml.audio.soundsource;
+    import nudsfml.audio.soundstream;
 
-    import dsfml.system;
+    import nudsfml.system;
 }

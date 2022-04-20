@@ -142,7 +142,7 @@ class Font
     /// Destructor.
     ~this()
     {
-        //import dsfml.system.config;
+        //import nudsfml.system.config;
         //mixin(destructorOutput);
         sfFont_destroy(sfPtr);
     }

@@ -111,7 +111,7 @@ unittest
 	version(DSFML_Unittest_System)
 	{
 		import std.stdio;
-		import dsfml.system.sleep;
+		import nudsfml.system.sleep;
 		import std.math;
 
 		writeln("Unit test for Clock");

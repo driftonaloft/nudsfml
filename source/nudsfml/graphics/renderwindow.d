@@ -563,7 +563,7 @@ class RenderWindow : Window, RenderTarget
      */
     override void setTitle(const(dchar)[] newTitle)
     {
-        //import dsfml.system.string;
+        //import nudsfml.system.string;
         import std.utf;
         auto convertedTitle = newTitle.toUTFz!(dchar*);
         sfRenderWindow_setUnicodeTitle(sfPtr,cast(uint*) newTitle);

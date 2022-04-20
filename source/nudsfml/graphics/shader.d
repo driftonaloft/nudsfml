@@ -48,7 +48,7 @@ class Shader {
 
     /// Destructor.
     ~this(){
-        //import dsfml.system.config;
+        //import nudsfml.system.config;
         //mixin(destructorOutput);
         sfShader_destroy(sfPtr);
     }

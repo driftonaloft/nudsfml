@@ -45,7 +45,7 @@ unittest
 	//version(DSFML_Unittest_System)
 	version(none) //temporarily not doing this test
 	{
-		import dsfml.graphics.texture;
+		import nudsfml.graphics.texture;
 		import std.stdio;
 
 		//File Stream ported from Laurent's example here:

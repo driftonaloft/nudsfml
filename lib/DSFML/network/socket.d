@@ -49,7 +49,7 @@
  * See_Also:
  * $(TCPLISTENER_LINK), $(TCPSOCKET_LINK), $(UDPSOCKET_LINK)
  */
-module dsfml.network.socket;
+module nudsfml.network.socket;
 
 /// Base interface for all the socket types.
 interface Socket

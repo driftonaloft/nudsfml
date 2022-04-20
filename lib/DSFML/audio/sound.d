@@ -59,14 +59,14 @@
  * See_Also:
  * $(SOUNDBUFFER_LINK), $(MUSIC_LINK)
  */
-module dsfml.audio.sound;
+module nudsfml.audio.sound;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
-import dsfml.audio.soundbuffer;
-import dsfml.audio.soundsource;
+import nudsfml.audio.soundbuffer;
+import nudsfml.audio.soundsource;
 
-import dsfml.system.vector3;
+import nudsfml.system.vector3;
 
 /**
  * Regular sound that can be played in the audio environment.
@@ -101,7 +101,7 @@ class Sound : SoundSource
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         //stop the sound
         stop();
@@ -360,7 +360,7 @@ unittest
     version(DSFML_Unittest_Audio)
     {
         import std.stdio;
-        import dsfml.system.clock;
+        import nudsfml.system.clock;
 
         writeln("Unit test for Sound class");
 

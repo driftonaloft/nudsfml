@@ -127,11 +127,11 @@
  * See_Also:
  * $(SOUNDBUFFERRECORDER_LINK)
  */
-module dsfml.audio.soundrecorder;
+module nudsfml.audio.soundrecorder;
 
 import core.thread;
-import dsfml.system.string;
-import dsfml.system.err;
+import nudsfml.system.string;
+import nudsfml.system.err;
 
 /**
  * Abstract base class for capturing sound data.
@@ -160,7 +160,7 @@ class SoundRecorder
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfSoundRecorder_destroy(sfPtr);
     }

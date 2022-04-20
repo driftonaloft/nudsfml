@@ -80,7 +80,7 @@ unittest
 	{
 		import std.stdio;
 		import std.file;
-		import dsfml.graphics.texture;
+		import nudsfml.graphics.texture;
 
 		writeln("Unit test for err");
 

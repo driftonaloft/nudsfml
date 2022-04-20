@@ -219,7 +219,7 @@ class Text : Drawable, Transformable
     /// Destructor.
     ~this()
     {
-        //import dsfml.system.config;
+        //import nudsfml.system.config;
         //mixin(destructorOutput);
     }
 

@@ -47,7 +47,7 @@ enum
 enum destructorOutput =`
 	version (DSFML_Noisy_Destructors)
 	{
-		import dsfml.system.err;
+		import nudsfml.system.err;
 		err.writeln("Destroying ", typeof(this).stringof);
 	}`;
 

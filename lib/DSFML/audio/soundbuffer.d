@@ -86,21 +86,21 @@
  * See_Also:
  * $(SOUND_LINK), $(SOUNDBUFFERRECORDER_LINK)
  */
-module dsfml.audio.soundbuffer;
+module nudsfml.audio.soundbuffer;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
-import dsfml.audio.inputsoundfile;
-import dsfml.audio.sound;
+import nudsfml.audio.inputsoundfile;
+import nudsfml.audio.sound;
 
-import dsfml.system.inputstream;
+import nudsfml.system.inputstream;
 
 import std.stdio;
 import std.string;
 import std.algorithm;
 import std.array;
 
-import dsfml.system.err;
+import nudsfml.system.err;
 
 /**
  * Storage for audio samples defining a sound.
@@ -118,7 +118,7 @@ class SoundBuffer
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfSoundBuffer_destroy(sfPtr);
     }

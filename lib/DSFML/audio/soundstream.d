@@ -95,17 +95,17 @@
  * See_Also:
  * $(MUSIC_LINK)
  */
-module dsfml.audio.soundstream;
+module nudsfml.audio.soundstream;
 
 
 import core.thread;
 
-import dsfml.audio.soundsource;
+import nudsfml.audio.soundsource;
 
-import dsfml.system.vector3;
-import dsfml.system.err;
+import nudsfml.system.vector3;
+import nudsfml.system.err;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
 /**
  * Abstract base class for streamed audio sources.
@@ -125,7 +125,7 @@ class SoundStream : SoundSource
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfSoundStream_destroy(sfPtr);
     }
@@ -471,57 +471,3 @@ class SoundStreamCallBacks: sfmlSoundStreamCallBacks
         m_stream.onSeek(microseconds(time));
     }
 }
-
-private extern(C):
-
-struct sfSoundStream;
-
-sfSoundStream* sfSoundStream_construct(sfmlSoundStreamCallBacks callBacks);
-
-void sfSoundStream_destroy(sfSoundStream* soundStream);
-
-void sfSoundStream_initialize(sfSoundStream* soundStream, uint channelCount, uint sampleRate);
-
-void sfSoundStream_play(sfSoundStream* soundStream);
-
-void sfSoundStream_pause(sfSoundStream* soundStream);
-
-void sfSoundStream_stop(sfSoundStream* soundStream);
-
-int sfSoundStream_getStatus(const sfSoundStream* soundStream);
-
-uint sfSoundStream_getChannelCount(const sfSoundStream* soundStream);
-
-uint sfSoundStream_getSampleRate(const sfSoundStream* soundStream);
-
-void sfSoundStream_setPitch(sfSoundStream* soundStream, float pitch);
-
-void sfSoundStream_setVolume(sfSoundStream* soundStream, float volume);
-
-void sfSoundStream_setPosition(sfSoundStream* soundStream, float positionX, float positionY, float positionZ);
-
-void sfSoundStream_setRelativeToListener(sfSoundStream* soundStream, bool relative);
-
-void sfSoundStream_setMinDistance(sfSoundStream* soundStream, float distance);
-
-void sfSoundStream_setAttenuation(sfSoundStream* soundStream, float attenuation);
-
-void sfSoundStream_setPlayingOffset(sfSoundStream* soundStream, long timeOffset);
-
-void sfSoundStream_setLoop(sfSoundStream* soundStream, bool loop);
-
-float sfSoundStream_getPitch(const sfSoundStream* soundStream);
-
-float sfSoundStream_getVolume(const sfSoundStream* soundStream);
-
-void sfSoundStream_getPosition(const sfSoundStream* soundStream, float* positionX, float* positionY, float* positionZ);
-
-bool sfSoundStream_isRelativeToListener(const sfSoundStream* soundStream);
-
-float sfSoundStream_getMinDistance(const sfSoundStream* soundStream);
-
-float sfSoundStream_getAttenuation(const sfSoundStream* soundStream);
-
-bool sfSoundStream_getLoop(const sfSoundStream* soundStream);
-
-long sfSoundStream_getPlayingOffset(const sfSoundStream* soundStream);

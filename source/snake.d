@@ -72,9 +72,6 @@ class Snake {
             }
         }
         
-        foreach(ref part ; parts){
-            writeln(part.mapLocation);
-        }
         g.map.sortEntities;
     }
 
@@ -94,7 +91,8 @@ class Snake {
         updateTimer -= deltaTime;
         if(updateTimer < 0){
             updateTimer = updateInterval;
-           move();
+            if(g.doMove)
+                move();
         }
     }
 

@@ -80,9 +80,9 @@
  * }
  * ---
  */
-module dsfml.network.http;
+module nudsfml.network.http;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
 /**
  * An HTTP client.
@@ -119,7 +119,7 @@ class Http
     ///Destructor
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfHttp_destroy(sfPtr);
     }
@@ -203,7 +203,7 @@ class Http
         /// Destructor
         ~this()
         {
-            import dsfml.system.config;
+            import nudsfml.system.config;
             mixin(destructorOutput);
             sfHttpRequest_destroy(sfPtrRequest);
         }
@@ -333,7 +333,7 @@ class Http
          */
         string getBody() const
         {
-            import dsfml.system.string;
+            import nudsfml.system.string;
             return dsfml.system.string.toString(sfHttpResponse_getBody(sfPtrResponse));
         }
 
@@ -350,7 +350,7 @@ class Http
          */
         string getField(const(char)[] field) const
         {
-            import dsfml.system.string;
+            import nudsfml.system.string;
             return dsfml.system.string.toString(sfHttpResponse_getField(sfPtrResponse, field.ptr, field.length));
         }
 

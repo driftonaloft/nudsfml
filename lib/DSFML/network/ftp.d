@@ -91,11 +91,11 @@
  * ftp.disconnect();
  * ---
  */
-module dsfml.network.ftp;
+module nudsfml.network.ftp;
 
-public import dsfml.system.time;
+public import nudsfml.system.time;
 
-import dsfml.network.ipaddress;
+import nudsfml.network.ipaddress;
 
 /**
  * An FTP client.
@@ -124,7 +124,7 @@ class Ftp
     /// Destructor.
     ~this()
     {
-        import dsfml.system.config;
+        import nudsfml.system.config;
         mixin(destructorOutput);
         sfFtp_destroy(sfPtr);
     }
@@ -157,7 +157,7 @@ class Ftp
      */
     ListingResponse getDirectoryListing(const(char)[] directory = "")
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new ListingResponse(sfFtp_getDirectoryListing(sfPtr, directory.ptr, directory.length));
     }
 
@@ -173,7 +173,7 @@ class Ftp
      */
     Response changeDirectory(const(char)[] directory)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_changeDirectory(sfPtr, directory.ptr,
                                                   directory.length));
     }
@@ -243,7 +243,7 @@ class Ftp
      */
     Response deleteDirectory(const(char)[] name)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_deleteDirectory(sfPtr, name.ptr, name.length));
     }
 
@@ -260,7 +260,7 @@ class Ftp
      */
     Response deleteFile(const(char)[] name)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_deleteFile(sfPtr, name.ptr, name.length));
     }
 
@@ -271,7 +271,7 @@ class Ftp
      */
     Response disconnect()
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_disconnect(sfPtr));
     }
 
@@ -291,7 +291,7 @@ class Ftp
      */
     Response download(const(char)[] remoteFile, const(char)[] localPath, TransferMode mode = TransferMode.Binary)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_download(sfPtr, remoteFile.ptr, remoteFile.length, localPath.ptr, localPath.length ,mode));
     }
 
@@ -335,7 +335,7 @@ class Ftp
      */
     Response login(const(char)[] name, const(char)[] password)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_login(sfPtr, name.ptr, name.length, password.ptr, password.length));
     }
 
@@ -346,7 +346,7 @@ class Ftp
      */
     Response parentDirectory()
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_parentDirectory(sfPtr));
     }
 
@@ -362,7 +362,7 @@ class Ftp
      */
     Response createDirectory(const(char)[] name)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_createDirectory(sfPtr, name.ptr, name.length));
     }
 
@@ -379,7 +379,7 @@ class Ftp
      */
     Response renameFile(const(char)[] file, const(char)[] newName)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_renameFile(sfPtr, file.ptr, file.length, newName.ptr, newName.length));
     }
 
@@ -399,7 +399,7 @@ class Ftp
      */
     Response upload(const(char)[] localFile, const(char)[] remotePath, TransferMode mode = TransferMode.Binary)
     {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_upload(sfPtr, localFile.ptr, localFile.length, remotePath.ptr, remotePath.length, mode));
     }
 
@@ -419,7 +419,7 @@ class Ftp
      * Returns: Server response to the request.
      */
     Response sendCommand(const(char)[] command, const(char)[] parameter) {
-        import dsfml.system.string;
+        import nudsfml.system.string;
         return new Response(sfFtp_sendCommand(sfPtr, command.ptr, command.length, parameter.ptr, parameter.length));
     }
 
@@ -431,7 +431,7 @@ class Ftp
         //Internally used constructor
         package this(sfFtpDirectoryResponse* FtpDirectoryResponce)
         {
-            import dsfml.system.string;
+            import nudsfml.system.string;
 
             Directory = dsfml.system.string.toString(sfFtpDirectoryResponse_getDirectory(FtpDirectoryResponce));
 
@@ -459,7 +459,7 @@ class Ftp
         //Internally used constructor
         package this(sfFtpListingResponse* FtpListingResponce)
         {
-            import dsfml.system.string;
+            import nudsfml.system.string;
 
             Filenames.length = sfFtpListingResponse_getCount(FtpListingResponce);
             for(int i = 0; i < Filenames.length; i++)
@@ -551,7 +551,7 @@ class Ftp
         //Internally used constructor.
         package this(Ftp.Response.Status status = Ftp.Response.Status.InvalidResponse, const(char)* message = "")
         {
-            import dsfml.system.string;
+            import nudsfml.system.string;
             FtpStatus = status;
             Message = dsfml.system.string.toString(message);
         }
@@ -596,7 +596,7 @@ unittest
     version(DSFML_Unittest_Network)
     {
         import std.stdio;
-        import dsfml.system.err;
+        import nudsfml.system.err;
 
         writeln("Unittest for Ftp");
 
