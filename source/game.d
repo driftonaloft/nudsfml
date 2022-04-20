@@ -4,6 +4,7 @@ import nudsfml.graphics;
 import nudsfml.system;
 
 import std.stdio;
+import std.format;
 
 import gamemap;
 import gameentity;
@@ -31,6 +32,8 @@ class Game {
 
     Clock gameTick;
 
+    Clock elementTimer;
+
     this(string dataDir_ = "data/"){
         dataDir = dataDir_;
 
@@ -54,6 +57,7 @@ class Game {
         snake.generate(3);
 
         gameTick = new Clock();
+        elementTimer = new Clock();
     } 
 
 
@@ -62,11 +66,16 @@ class Game {
 
     }
 
+    float dt, drawtime, eventTimer, updateTimer;
+
     void run(){
         while(running){
-            float dt = gameTick.restart().asSeconds();
+            dt = gameTick.restart().asSeconds();
+            drawtime = elementTimer.restart().asSeconds();
             handleEvents();
+            eventTimer= elementTimer.getElapsedTime.asSeconds();
             update(dt);
+            updateTimer = elementTimer.getElapsedTime.asSeconds();
             draw();
         }
     }
@@ -105,6 +114,9 @@ class Game {
 
     void drawDebug(){
         if(doDrawDebug){
+            debugText.position = Vector2f(32,32);
+            string text = format("FPS: %f , drawTime: %f , eventTime: %f , updateTime: %f", 1/dt, drawtime, eventTimer, updateTimer);
+            debugText.setString = text;
             win.draw(debugText);
         }
     }

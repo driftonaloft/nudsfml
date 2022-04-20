@@ -579,6 +579,7 @@ class Text : Drawable, Transformable
         {
             return m_string;
         }
+
     }
 
     /**

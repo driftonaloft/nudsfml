@@ -44,6 +44,7 @@ class Texture
 //        mixin(destructorOutput);
         if(!managed && sfPtr !is null) {
             sfTexture_destroy(sfPtr);
+            sfPtr = null;
         }
     }
 
