@@ -2,6 +2,8 @@ module game;
 
 import nudsfml.graphics;
 import nudsfml.system;
+import nudsfml.audio;
+import nudsfml.network;
 
 import std.stdio;
 import std.format;

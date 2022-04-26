@@ -58,7 +58,7 @@ class GameMap {
     }
 
     void sortEntities() {
-        entities.sort!((a,b) => a.position.y > b.position.y);
+        entities.sort!((a,b) => a.position.y < b.position.y);
     }
 
     void  update(float deltaTime){
@@ -228,7 +228,7 @@ class GameMap {
             }
             //writeln("Y: ", y);
             if (entityIndex < entities.length ) {
-                while (entities[entityIndex].position.y < (y ) * gridHeight) {
+                while (entities[entityIndex].position.y < ((y - 1) * gridHeight)) {
                    // writeln(format("%d pos(%f,%f)", entityIndex, entities[entityIndex].position.x, entities[entityIndex].position.y));
                     entities[entityIndex].draw(target);
                     entityIndex++;

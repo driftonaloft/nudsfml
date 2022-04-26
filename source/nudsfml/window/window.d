@@ -182,7 +182,7 @@ class Window {
 	 * If a limit is set, the window will use a small delay after each call to
 	 * display() to ensure that the current frame lasted long enough to match
 	 * the framerate limit. SFML will try to match the given limit as much as it
-	 * can, but since it internally uses dsfml.system.sleep, whose precision
+	 * can, but since it internally usesnudsfml.system.sleep, whose precision
 	 * depends on the underlying OS, the results may be a little unprecise as
 	 * well (for example, you can get 65 FPS when requesting 60).
 	 *
