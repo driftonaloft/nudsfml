@@ -32,7 +32,7 @@ class Texture
         //sfPtr = sfTexture_construct();
     }
 
-    package this(sfTexture* texturePointer)
+    package this(sfTexture * texturePointer)
     {
         sfPtr = texturePointer;
         managed = true;
@@ -457,7 +457,7 @@ class Texture
      *		y     = Y offset in the texture where to copy the source image.
      *		x     = X offset in the texture where to copy the source image.
      */
-    deprecated("Use update function.")
+    //deprecated("Use update function.")
     void updateFromImage(Image image, uint x, uint y)
     {
         sfTexture_updateFromImage(sfPtr, image.sfPtr, x, y);
@@ -483,7 +483,7 @@ class Texture
      * 		x		= X offset in the texture where to copy the source pixels
      * 		y		= Y offset in the texture where to copy the source pixels
      */
-    deprecated("Use update function.")
+    //deprecated("Use update function.")
     void updateFromPixels(const(ubyte)[] pixels, uint width, uint height, uint x, uint y)
     {
         sfTexture_updateFromPixels(sfPtr,pixels.ptr,width, height, x,y);
@@ -505,7 +505,7 @@ class Texture
      * 		x		= X offset in the texture where to copy the source window
      * 		y		= Y offset in the texture where to copy the source window
      */
-    deprecated("Use update function.")
+    //deprecated("Use update function.")
     void updateFromWindow(Window window, uint x, uint y)
     {
        // sfTexture_updateFromWindow(sfPtr, RenderWindow.windowPointer(window), x, y);
@@ -527,7 +527,7 @@ class Texture
      * 		x		= X offset in the texture where to copy the source window
      * 		y		= Y offset in the texture where to copy the source window
      */
-    deprecated("Use update function.")
+    //deprecated("Use update function.")
     void updateFromWindow(RenderWindow window, uint x, uint y)
     {
        // sfTexture_updateFromRenderWindow(sfPtr, window.sfPtr, x, y);

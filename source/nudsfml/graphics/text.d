@@ -168,9 +168,9 @@ class Text : Drawable, Transformable
      *	font          = Font used to draw the string
      *	characterSize = Base size of characters, in pixels
      *
-     * deprecated: Use the constructor that takes a 'const(dchar)[]' instead.
+     * //deprecated: Use the constructor that takes a 'const(dchar)[]' instead.
      */
-    deprecated("Use the constructor that takes a 'const(dchar)[]' instead.")
+    //deprecated("Use the constructor that takes a 'const(dchar)[]' instead.")
     this(T)(const(T)[] text, Font font, uint characterSize = 30)
         if (is(T == dchar)||is(T == wchar)||is(T == char))
     {
@@ -264,9 +264,9 @@ class Text : Drawable, Transformable
      * Params:
      * 		size	= New character size, in pixels.
      *
-     * deprecated: Use the 'characterSize' property instead.
+     * //deprecated: Use the 'characterSize' property instead.
      */
-    deprecated("Use the 'characterSize' property instead.")
+    //deprecated("Use the 'characterSize' property instead.")
     void setCharacterSize(uint size){
         characterSize = size;
     }
@@ -276,9 +276,9 @@ class Text : Drawable, Transformable
      *
      * Returns: Size of the characters, in pixels.
      *
-     * deprecated: Use the 'characterSize' property instead.
+     * //deprecated: Use the 'characterSize' property instead.
      */
-    deprecated("Use the 'characterSize' property instead.")
+    //deprecated("Use the 'characterSize' property instead.")
     uint getCharacterSize() const {
         return characterSize;
     }
@@ -291,9 +291,9 @@ class Text : Drawable, Transformable
      * Params:
      * 		color	= New color of the text.
      *
-     * deprecated: Use the 'fillColor' or 'outlineColor' properties instead.
+     * //deprecated: Use the 'fillColor' or 'outlineColor' properties instead.
      */
-    deprecated("Use the 'fillColor' or 'outlineColor' properties instead.")
+    //deprecated("Use the 'fillColor' or 'outlineColor' properties instead.")
     void setColor(Color color) {
         fillColor = color;
     }
@@ -303,9 +303,9 @@ class Text : Drawable, Transformable
      *
      * Returns: Fill color of the text.
      *
-     * deprecated: Use the 'fillColor' or 'outlineColor' properties instead.
+     * //deprecated: Use the 'fillColor' or 'outlineColor' properties instead.
      */
-    deprecated("Use the 'fillColor' or 'outlineColor' properties instead.")
+    //deprecated("Use the 'fillColor' or 'outlineColor' properties instead.")
     Color getColor() const {
         return fillColor;
     }
@@ -417,9 +417,9 @@ class Text : Drawable, Transformable
      * Params:
      * 		newFont	= New font
      *
-     * deprecated: Use the 'font' property instead.
+     * //deprecated: Use the 'font' property instead.
      */
-    deprecated("Use the 'font' property instead.")
+    //deprecated("Use the 'font' property instead.")
     void setFont(Font newFont)
     {
         font = newFont;
@@ -430,9 +430,9 @@ class Text : Drawable, Transformable
      *
      * Returns: Text's font.
      *
-     * deprecated: Use the 'font' property instead.
+     * //deprecated: Use the 'font' property instead.
      */
-    deprecated("Use the 'font' property instead.")
+    //deprecated("Use the 'font' property instead.")
     const(Font) getFont() const
     {
         return font;
@@ -463,9 +463,9 @@ class Text : Drawable, Transformable
      *
      * Returns: Global bounding rectangle of the entity.
      *
-     * deprecated: Use the 'globalBounds' property instead.
+     * //deprecated: Use the 'globalBounds' property instead.
      */
-    deprecated("Use the 'globalBounds' property instead.")
+    //deprecated("Use the 'globalBounds' property instead.")
     FloatRect getGlobalBounds()
     {
         return globalBounds;
@@ -496,9 +496,9 @@ class Text : Drawable, Transformable
      *
      * Returns: Local bounding rectangle of the entity.
      *
-     * deprecated: Use the 'globalBounds' property instead.
+     * //deprecated: Use the 'globalBounds' property instead.
      */
-    deprecated("Use the 'localBounds' property instead.")
+    //deprecated("Use the 'localBounds' property instead.")
     FloatRect getLocalBounds() const
     {
         return localBounds;
@@ -539,9 +539,9 @@ class Text : Drawable, Transformable
      * Params:
      *      newStyle = New style
      *
-     * deprecated: Use the 'style' property instead.
+     * //deprecated: Use the 'style' property instead.
      */
-    deprecated("Use the 'style' property instead.")
+    //deprecated("Use the 'style' property instead.")
     void setStyle(Style newStyle)
     {
         style = newStyle;
@@ -552,9 +552,9 @@ class Text : Drawable, Transformable
      *
      * Returns: Text's style.
      *
-     * deprecated: Use the 'style' property instead.
+     * //deprecated: Use the 'style' property instead.
      */
-    deprecated("Use the 'style' property instead.")
+    //deprecated("Use the 'style' property instead.")
     Style getStyle() const
     {
         return style;
@@ -567,7 +567,9 @@ class Text : Drawable, Transformable
          *
          * A text's string is empty by default.
          */
-        const(dchar)[] string(const(dchar)[] str)
+        
+        
+        /*const(dchar)[] string(const(dchar)[] str)
         {
             // Because of the conversion, assume the text is new
             stringCopy(str);
@@ -578,6 +580,30 @@ class Text : Drawable, Transformable
         const(dchar)[] string() const
         {
             return m_string;
+        }*/
+
+        const(T)[] string(T)(const(T)[] text)
+        if (is(T == dchar)||is(T == wchar)||is(T == char))
+        {
+            // Because of the conversion, assume the text is new
+            stringCopy(text);
+            m_geometryNeedUpdate = true;
+
+            return string!T();
+        }
+
+        const(T)[] string(T=char)() const 
+        if(is(T == dchar)||is(T==wchar)||is(T==char))
+        {
+            import std.utf: toUTF8, toUTF16, toUTF32;
+
+            static if(is(T == char)){
+                return toUTF8(m_string);
+            } else static if(is( T == wchar)){
+                return toUTF16(m_string);
+            } else static if(is(T == dchar)){
+                return toUTF32(m_string);
+            }
         }
 
     }
@@ -590,9 +616,9 @@ class Text : Drawable, Transformable
      * Params:
      * 		text	= New string
      *
-     * deprecated: Use the 'string' property instead.
+     * //deprecated: Use the 'string' property instead.
      */
-    deprecated("Use the 'string' property instead.")
+    //deprecated("Use the 'string' property instead.")
     void setString(T)(const(T)[] text)
         if (is(T == dchar)||is(T == wchar)||is(T == char))
     {
@@ -606,9 +632,9 @@ class Text : Drawable, Transformable
      *
      * Returns: a copy of the text's string.
      *
-     * deprecated: Use the 'string' property instead.
+     * //deprecated: Use the 'string' property instead.
      */
-    deprecated("Use the 'string' property instead.")
+    //deprecated("Use the 'string' property instead.")
     const(T)[] getString(T=char)() const
         if (is(T == dchar)||is(T == wchar)||is(T == char))
     {
@@ -917,83 +943,95 @@ private:
 
 unittest
 {
-    version(DSFML_Unittest_Graphics)
-    {
-        import std.stdio;
-        import nudsfml.graphics.rendertexture;
+    import std.stdio;
+    import nudsfml.graphics.rendertexture;
 
-        writeln("Unit test for Text");
+    writeln("Unit test for Text");
 
-        auto renderTexture = new RenderTexture();
+    auto renderTexture = new RenderTexture();
 
-        renderTexture.create(400,200);
+    renderTexture.create(400,200);
 
-        auto font = new Font();
-        assert(font.loadFromFile("data/CamingoCode-Regular.ttf"));
+    auto font = new Font();
+    assert(font.loadFromFile("data/FiraMono-Regular.ttf"));
 
-        Text regular = new Text("Regular", font, 20);
-        Text bold = new Text("Bold", font, 20);
-        Text italic = new Text("Italic", font, 20);
-        Text boldItalic = new Text("Bold Italic", font, 20);
-        Text strikeThrough = new Text("Strike Through", font, 20);
-        Text italicStrikeThrough = new Text("Italic Strike Through", font, 20);
-        Text boldStrikeThrough = new Text("Bold Strike Through", font, 20);
-        Text boldItalicStrikeThrough = new Text("Bold Italic Strike Through", font, 20);
-        Text outlined = new Text("Outlined", font, 20);
-        Text outlinedBoldItalicStrikeThrough = new Text("Outlined Bold Italic Strike Through", font, 20);
+    Text regular = new Text("Regular", font, 20);
+    Text bold = new Text("Bold", font, 20);
+    Text italic = new Text("Italic", font, 20);
+    Text boldItalic = new Text("Bold Italic", font, 20);
+    Text strikeThrough = new Text("Strike Through", font, 20);
+    Text italicStrikeThrough = new Text("Italic Strike Through", font, 20);
+    Text boldStrikeThrough = new Text("Bold Strike Through", font, 20);
+    Text boldItalicStrikeThrough = new Text("Bold Italic Strike Through", font, 20);
+    Text outlined = new Text("Outlined", font, 20);
+    Text outlinedBoldItalicStrikeThrough = new Text("Outlined Bold Italic Strike Through", font, 20);
 
-        bold.style = Text.Style.Bold;
-        bold.position = Vector2f(0,20);
+    bold.style = Text.Style.Bold;
+    bold.position = Vector2f(0,20);
 
-        italic.style = Text.Style.Italic;
-        italic.position = Vector2f(0,40);
+    italic.style = Text.Style.Italic;
+    italic.position = Vector2f(0,40);
 
-        boldItalic.style = Text.Style.Bold | Text.Style.Italic;
-        boldItalic.position = Vector2f(0,60);
+    boldItalic.style = Text.Style.Bold | Text.Style.Italic;
+    boldItalic.position = Vector2f(0,60);
 
-        strikeThrough.style = Text.Style.StrikeThrough;
-        strikeThrough.position = Vector2f(0,80);
+    strikeThrough.style = Text.Style.StrikeThrough;
+    strikeThrough.position = Vector2f(0,80);
 
-        italicStrikeThrough.style = Text.Style.Italic | Text.Style.StrikeThrough;
-        italicStrikeThrough.position = Vector2f(0,100);
+    italicStrikeThrough.style = Text.Style.Italic | Text.Style.StrikeThrough;
+    italicStrikeThrough.position = Vector2f(0,100);
 
-        boldStrikeThrough.style = Text.Style.Bold | Text.Style.StrikeThrough;
-        boldStrikeThrough.position = Vector2f(0,120);
+    boldStrikeThrough.style = Text.Style.Bold | Text.Style.StrikeThrough;
+    boldStrikeThrough.position = Vector2f(0,120);
 
-        boldItalicStrikeThrough.style = Text.Style.Bold | Text.Style.Italic | Text.Style.StrikeThrough;
-        boldItalicStrikeThrough.position = Vector2f(0,140);
+    boldItalicStrikeThrough.style = Text.Style.Bold | Text.Style.Italic | Text.Style.StrikeThrough;
+    boldItalicStrikeThrough.position = Vector2f(0,140);
 
-        outlined.outlineColor = Color.Red;
-        outlined.outlineThickness = 0.5f;
-        outlined.position = Vector2f(0,160);
+    outlined.outlineColor = Color.Red;
+    outlined.outlineThickness = 0.5f;
+    outlined.position = Vector2f(0,160);
 
-        outlinedBoldItalicStrikeThrough.style = Text.Style.Bold | Text.Style.Italic | Text.Style.StrikeThrough;
-        outlinedBoldItalicStrikeThrough.outlineColor = Color.Red;
-        outlinedBoldItalicStrikeThrough.outlineThickness = 0.5f;
-        outlinedBoldItalicStrikeThrough.position = Vector2f(0,180);
+    outlinedBoldItalicStrikeThrough.style = Text.Style.Bold | Text.Style.Italic | Text.Style.StrikeThrough;
+    outlinedBoldItalicStrikeThrough.outlineColor = Color.Red;
+    outlinedBoldItalicStrikeThrough.outlineThickness = 0.5f;
+    outlinedBoldItalicStrikeThrough.position = Vector2f(0,180);
 
-        writeln(regular.string);
+    writeln(regular.string);
+    writeln(bold.string);
+    bold.string = bold.string;
+    writeln(italic.string);
+    writeln(boldItalic.string);
+    writeln(strikeThrough.string);
+    writeln(italicStrikeThrough.string);
+    writeln(boldStrikeThrough.string);
+    writeln(boldItalicStrikeThrough.string);
+    writeln(outlined.string);
+    writeln(outlinedBoldItalicStrikeThrough.string);
 
-        renderTexture.clear();
 
-        renderTexture.draw(regular);
-        renderTexture.draw(bold);
-        renderTexture.draw(italic);
-        renderTexture.draw(boldItalic);
-        renderTexture.draw(strikeThrough);
-        renderTexture.draw(italicStrikeThrough);
-        renderTexture.draw(boldStrikeThrough);
-        renderTexture.draw(boldItalicStrikeThrough);
-        renderTexture.draw(outlined);
-        renderTexture.draw(outlinedBoldItalicStrikeThrough);
+    renderTexture.clear();
 
-        renderTexture.display();
+    renderTexture.draw(regular);
+    renderTexture.draw(bold);
+    renderTexture.draw(italic);
+    renderTexture.draw(boldItalic);
+    renderTexture.draw(strikeThrough);
+    renderTexture.draw(italicStrikeThrough);
+    renderTexture.draw(boldStrikeThrough);
+    renderTexture.draw(boldItalicStrikeThrough);
+    renderTexture.draw(outlined);
+    renderTexture.draw(outlinedBoldItalicStrikeThrough);
 
-        //grab that texture for usage
-        auto texture = renderTexture.getTexture();
+    renderTexture.display();
 
-        texture.copyToImage().saveToFile("Text.png");
+    //grab that texture for usage
+    auto texture = renderTexture.getTexture();
 
-        writeln();
-    }
+    writeln( texture.copyToImage().saveToFile("Text.png")) ;
+
+    auto fontTexture = font.getTexture(20);
+    writeln(fontTexture.copyToImage().saveToFile("Font.png"));
+
+    writeln();
+
 }

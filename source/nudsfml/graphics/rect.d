@@ -38,7 +38,7 @@ struct Rect(T)
         return contains(point.x, point.y);
     }
 
-    bool intersects(E)(Rect!() rectangle) const
+    bool intersects(E)(Rect!(E) rectangle) const
         if(isNumeric!(E)) 
     {
         Rect!(T) rect;
@@ -46,19 +46,19 @@ struct Rect(T)
 
     }
 
-    bool intersects(E,O)(Rect!(E) rectangle, out Rect!(O) intersection) const 
-        if(isNumeric!(O) && isNumeric!(E)) 
+    bool intersects(E)(Rect!(E) rectangle, out Rect!(E) intersection) const 
+        if(isNumeric!(E)) 
     {
-        O interLeft = max(left, rectangle.left);
-        O interTop = max(top, rectangle.top);
-        O interRight = min(left + width, rectangle.left + rectangle.width);
-        O interBottom = min(top + height, rectangle.top + rectangle.height);
+        E interLeft = max(left, rectangle.left);
+        E interTop = max(top, rectangle.top);
+        E interRight = min(left + width, rectangle.left + rectangle.width);
+        E interBottom = min(top + height, rectangle.top + rectangle.height);
 
         if(interLeft < interRight && interTop < interBottom) {
-            intersection = Rect(O)(interLeft, interTop, interRight - interLeft, interBottom - interTop);
+            intersection = Rect!(E)(interLeft, interTop, interRight - interLeft, interBottom - interTop);
             return true;
         } else {
-            intersection = Rect(O)(0, 0, 0, 0);
+            intersection = Rect!(E)(0, 0, 0, 0);
             return false;
         }
     }

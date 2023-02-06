@@ -30,9 +30,9 @@
  * a C/C++ library as well as converting between D's string types. This module
  * has no dependencies except for std.utf.
  *
- * Deprecated: This module is expected to be removed in DSFML 2.5.
+ * //deprecated: This module is expected to be removed in DSFML 2.5.
  */
-deprecated("This module is expected to be removed in DSFML 2.5.")
+//deprecated("This module is expected to be removed in DSFML 2.5.")
 module nudsfml.system.string;
 
 /**
@@ -43,9 +43,9 @@ module nudsfml.system.string;
  *
  * Returns: The D style string copy.
  *
- * Deprecated: This method is expected to be removed in DSFML 2.5.
+ * //deprecated: This method is expected to be removed in DSFML 2.5.
  */
-deprecated("This method is expected to be removed in DSFML 2.5.")
+//deprecated("This method is expected to be removed in DSFML 2.5.")
 immutable(T)[] toString(T)(in const(T)* str) pure
 	if (is(T == dchar)||is(T == wchar)||is(T == char))
 {
@@ -63,9 +63,9 @@ immutable(T)[] toString(T)(in const(T)* str) pure
  *
  * Returns: the C style string pointer.
  *
- * Deprecated: Use conversion methonds in std.utf instead.
+ * //deprecated: Use conversion methonds in std.utf instead.
  */
- deprecated("Use conversion methonds in std.utf instead.")
+ //deprecated("Use conversion methonds in std.utf instead.")
 immutable(U)[] stringConvert(T, U)(in T[] str) pure
 if ((is(T == dchar)||is(T == wchar)||is(T == char)) &&
 	(is(U == dchar)||is(U == wchar)||is(U == char)))

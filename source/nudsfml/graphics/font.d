@@ -129,22 +129,21 @@ class Font
      *
      * Defines an empty font.
      */
-    this()
-    {
+    this() {
         sfPtr = null;//sfFont_construct();
     }
 
-    package this(sfFont* newFont)
-    {
+    package this(sfFont* newFont){
         sfPtr = newFont;
     }
 
     /// Destructor.
-    ~this()
-    {
-        //import nudsfml.system.config;
-        //mixin(destructorOutput);
-        sfFont_destroy(sfPtr);
+    ~this() {
+        import nudsfml.system.config;
+        mixin(destructorOutput);
+        if(sfPtr != null) {
+            sfFont_destroy(sfPtr);
+        }
     }
 
     /**
@@ -164,13 +163,11 @@ class Font
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool loadFromFile(const(char)[] filename)
-    {
+    bool loadFromFile(const(char)[] filename){
         if (sfPtr !is null) {
             sfFont_destroy(sfPtr);
         }
         sfPtr = sfFont_createFromFile(filename.toStringz);
-
         return sfPtr !is null;
     }
 
@@ -189,8 +186,7 @@ class Font
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool loadFromMemory(const(void)[] data)
-    {
+    bool loadFromMemory(const(void)[] data) {
         if (sfPtr !is null) {
             sfFont_destroy(sfPtr);
         }
@@ -218,8 +214,7 @@ class Font
         return sfFont_loadFromStream(sfPtr, m_stream);
     }*/
 
-    ref const(Info) getInfo() const
-    {
+    ref const(Info) getInfo() const {
         return m_info;
     }
 
@@ -234,14 +229,9 @@ class Font
      *
      * Returns: The glyph corresponding to codePoint and characterSize.
      */
-    Glyph getGlyph(dchar codePoint, uint characterSize, bool bold, float outlineThickness = 0) const
-    {
-
+    Glyph getGlyph(dchar codePoint, uint characterSize, bool bold, float outlineThickness = 0) const{
         int b = bold ? 1 : 0;
-        auto f = sfPtr;
-        sfGlyph g = sfFont_getGlyph(f, cast(uint)codePoint, characterSize, b,outlineThickness);
-        Glyph temp = cast(Glyph)g;
-
+        Glyph temp = cast(Glyph)sfFont_getGlyph(sfPtr, cast(uint)codePoint, characterSize, b, outlineThickness);;
         return temp;
     }
 
@@ -328,17 +318,13 @@ class Font
      *
      * Returns: Texture containing the glyphs of the requested size.
      */
-    const(Texture) getTexture (uint characterSize)
-    {
+    const(Texture) getTexture (uint characterSize){
         import std.stdio;
-        Texture ret = textures.get(characterSize, null);
-
-        if(ret is null)
-        {
-            sfTexture * p = cast(sfTexture*)sfFont_getTexture(sfPtr, characterSize);
-            ret = new Texture(p);
-            textures[characterSize] = ret;
-        }
+        Texture ret; // = textures.get(characterSize, null);
+        
+        sfTexture* p = cast(sfTexture*)sfFont_getTexture(sfPtr, characterSize);
+        ret = new Texture(p);
+        
         return ret;
     }
 
@@ -357,6 +343,8 @@ class Font
 unittest {
     version(DSFML_Unittest_Graphics) {
         import std.stdio;
+        import nudsfml.graphics;
+        import nudsfml.window;
 
         import nudsfml.graphics.text;
 
@@ -366,7 +354,27 @@ unittest {
         assert(font.loadFromFile("data/CamingoCode-Regular.ttf"));
 
         Text text;
-        text = new Text("Sample String", font);
+        text = new Text("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789{}", font);
+        text.position = Vector2f(10, 300);
+
+        RenderWindow win = new RenderWindow(VideoMode(800, 600), "Font Test");
+
+        Clock clock = new Clock();
+        while(win.isOpen){
+            Event event;
+            while(win.pollEvent(event)){
+                if(event.type == Event.Type.Closed)
+                    win.close();
+            }
+
+            if(clock.getElapsedTime().asSeconds() > 1.0f){
+                win.close();
+            }
+
+            win.clear();
+            win.draw(text);
+            win.display();
+        }
 
 
         //draw text or something

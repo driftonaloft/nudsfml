@@ -185,9 +185,9 @@ class RenderWindow : Window, RenderTarget
      * style    = Window style, a bitwise OR combination of Style enumerators
      * settings = Additional settings for the underlying OpenGL context
      *
-     * deprecated: Use the constructor that takes a 'const(dchar)[]' instead.
+     * //deprecated: Use the constructor that takes a 'const(dchar)[]' instead.
      */
-    deprecated("Use the constructor that takes a 'const(dchar)[]' instead.")
+    //deprecated("Use the constructor that takes a 'const(dchar)[]' instead.")
     this(T)(VideoMode mode, const(T)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init)
         if (is(T == wchar)||is(T == char))
     {
@@ -492,9 +492,9 @@ class RenderWindow : Window, RenderTarget
      * Params:
      * 		threshhold	= New threshold, in the range [0, 100]
 	 *
-	 * deprecated: Use set `setJoystickThreshold` instead.
+	 * //deprecated: Use set `setJoystickThreshold` instead.
 	 */
-	deprecated("Use setJoystickThreshold instead.")
+	//deprecated("Use setJoystickThreshold instead.")
     override void setJoystickThreshhold(float threshhold)
     {
         sfRenderWindow_setJoystickThreshold(sfPtr, threshhold);
@@ -645,9 +645,9 @@ class RenderWindow : Window, RenderTarget
     * style    = Window style, a bitwise OR combination of Style enumerators
     * settings = Additional settings for the underlying OpenGL context
     *
-	 * deprecated: Use the version of create that takes a 'const(dchar)[]'.
+	 * //deprecated: Use the version of create that takes a 'const(dchar)[]'.
     */
-    //deprecated("Use the version of create that takes a 'const(dchar)[]'.")
+    ////deprecated("Use the version of create that takes a 'const(dchar)[]'.")
     override void create(VideoMode mode, const(char)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init) {
         import std.string;
 
@@ -721,7 +721,7 @@ class RenderWindow : Window, RenderTarget
     /**
      * Copy the current contents of the window to an image
      *
-     * deprecated:
+     * //deprecated:
      * Use a $(TEXTURE_LINK Texture) and its `Texture.update()` function and
      * copy its contents into an $(IMAGE_LINK Image) instead.
      *
@@ -734,7 +734,7 @@ class RenderWindow : Window, RenderTarget
      *
      * Returns: An Image containing the captured contents.
      */
-    deprecated("Use a Texture, its update function, and copy its contents into an Image instead.")
+    //deprecated("Use a Texture, its update function, and copy its contents into an Image instead.")
     Image capture()
     {
         return new Image(sfRenderWindow_capture(sfPtr));

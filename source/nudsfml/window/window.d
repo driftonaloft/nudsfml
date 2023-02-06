@@ -235,9 +235,9 @@ class Window {
 	 * Params:
 	 *     threshhold = New threshold, in the range [0, 100].
 	 *
-	 * Deprecated: Use set `setJoystickThreshold` instead.
+	 * //deprecated: Use set `setJoystickThreshold` instead.
 	 */
-	deprecated("Use setJoystickThreshold instead.")
+	//deprecated("Use setJoystickThreshold instead.")
 	void setJoystickThreshhold(float threshhold) {
 		sfWindow_setJoystickThreshold(sfPtr, threshhold);
 	}
@@ -278,16 +278,16 @@ class Window {
 	 * Params:
      * 		newTitle = New title
 	 *
-	 * Deprecated: Use the version of setTitle that takes a 'const(dchar)[]'.
+	 * //deprecated: Use the version of setTitle that takes a 'const(dchar)[]'.
 	 */
-	deprecated("Use the version of setTitle that takes a 'const(dchar)[]'.")
+	//deprecated("Use the version of setTitle that takes a 'const(dchar)[]'.")
 	void setTitle(const(char)[] newTitle) {
 		import std.string;
 		sfWindow_setTitle(sfPtr, newTitle.toStringz);
 	}
 
 	/// ditto
-	deprecated("Use the version of setTitle that takes a 'const(dchar)[]'.")
+	//deprecated("Use the version of setTitle that takes a 'const(dchar)[]'.")
 	void setTitle(const(wchar)[] newTitle) {
 		import std.utf;
 		sfWindow_setUnicodeTitle(sfPtr, cast(uint*) newTitle.toUTFz!(dchar*));
@@ -398,9 +398,9 @@ class Window {
 	 * The fourth parameter is an optional structure specifying advanced OpenGL
 	 * context settings such as antialiasing, depth-buffer bits, etc.
 	 *
-	 * Deprecated: Use the version of create that takes a 'const(dchar)[]'.
+	 * //deprecated: Use the version of create that takes a 'const(dchar)[]'.
 	 */
-	deprecated("Use the version of create that takes a 'const(dchar)[]'.")
+	//deprecated("Use the version of create that takes a 'const(dchar)[]'.")
 	void create(VideoMode mode, const(char)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init)
 	{
 		import std.utf: toUTF32;
@@ -412,7 +412,7 @@ class Window {
 	}
 
 	/// ditto
-	deprecated("Use the version of create that takes a 'const(dchar)[]'.")
+	//deprecated("Use the version of create that takes a 'const(dchar)[]'.")
 	void create(VideoMode mode, const(wchar)[] title, Style style = Style.DefaultStyle, ContextSettings settings = ContextSettings.init)
 	{
 		import std.utf: toUTF32;

@@ -116,7 +116,7 @@ struct Event
     /**
      * Mouse wheel events parameters (MouseWheelMoved)
      */
-    deprecated("This event is deprecated and potentially inaccurate. Use MouseWheelScrollEvent instead.")
+    //deprecated("This event is //deprecated and potentially inaccurate. Use MouseWheelScrollEvent instead.")
     struct MouseWheelEvent
     {
         /**

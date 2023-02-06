@@ -29,10 +29,10 @@ enum PrimitiveType
     /// List of individual quads.
     Quads,
 
-    /// Deprecated: List of individual triangles.
+    /// //deprecated: List of individual triangles.
     LinesStrip = LineStrip,
-    /// Deprecated: List of connected triangles.
+    /// //deprecated: List of connected triangles.
     TrianglesStrip = TriangleStrip,
-    /// Deprecated: List of connected triangles.
+    /// //deprecated: List of connected triangles.
     TrianglesFan   = TriangleFan
 }

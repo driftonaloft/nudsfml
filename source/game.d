@@ -41,7 +41,7 @@ class Game {
 
         win = new RenderWindow(VideoMode(1024, 768), "NudSFML");
         //win.setVerticalSyncEnabled(true); // higher accuracy but more cpu time
-        win.setFramerateLimit(60); // 60 fps max // TODO: make this configurable
+        //win.setFramerateLimit(60); // 60 fps max // TODO: make this configurable
 
         systemFont = new Font();
         systemFont.loadFromFile(dataDir ~ "CamingoCode-Regular.ttf");
@@ -117,7 +117,7 @@ class Game {
     void drawDebug(){
         if(doDrawDebug){
             debugText.position = Vector2f(32,32);
-            string text = format("FPS: %f , drawTime: %f , eventTime: %f , updateTime: %f", 1/dt, drawtime, eventTimer, updateTimer);
+            string text = format("FPS: %0.f , drawTime: %f , eventTime: %f , updateTime: %f", 1/dt, drawtime, eventTimer, updateTimer);
             debugText.setString = text;
             win.draw(debugText);
         }

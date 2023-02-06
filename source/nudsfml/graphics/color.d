@@ -1,5 +1,8 @@
 module nudsfml.graphics.color;
 
+import std.traits;
+import std.algorithm;
+
 import bindbc.sfml.graphics;
 
 struct Color {
@@ -7,7 +10,6 @@ struct Color {
     ubyte g = 0;
     ubyte b = 0;
     ubyte a = 255;
-
 
     static immutable Black = Color(0, 0, 0, 255);
     static immutable White = Color(255, 255, 255, 255);

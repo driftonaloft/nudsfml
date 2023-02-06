@@ -152,7 +152,7 @@ final abstract class Listener
         }
     }
 
-    deprecated("Use the 'direction' property instead.")
+    //deprecated("Use the 'direction' property instead.")
     @property
     {
         /**
@@ -163,7 +163,7 @@ final abstract class Listener
          *
          * The default listener's orientation is (0, 0, -1).
          *
-         * Deprecated: Use the 'direction' property instead.
+         * //deprecated: Use the 'direction' property instead.
          */
         static void Direction(Vector3f orientation)
         {
@@ -178,7 +178,7 @@ final abstract class Listener
         }
     }
 
-    deprecated("Use the 'upVector' property instead.")
+    //deprecated("Use the 'upVector' property instead.")
     @property
     {
         /**
@@ -189,7 +189,7 @@ final abstract class Listener
          *
          * The default listener's upward vector is (0, 1, 0).
          *
-         * Deprecated: Use the 'upVector' property instead.
+         * //deprecated: Use the 'upVector' property instead.
          */
         static void UpVector(Vector3f orientation)
         {
@@ -204,7 +204,7 @@ final abstract class Listener
         }
     }
 
-    deprecated("Use the 'globalVolume' property instead.")
+    //deprecated("Use the 'globalVolume' property instead.")
     @property
     {
         /**
@@ -214,7 +214,7 @@ final abstract class Listener
          *
          * The default value for the volume is 100 (maximum).
          *
-         * Deprecated: Use the 'globalVolume' property instead.
+         * //deprecated: Use the 'globalVolume' property instead.
          */
         static void GlobalVolume(float volume)
         {
@@ -228,7 +228,7 @@ final abstract class Listener
         }
     }
 
-    deprecated("Use the 'position' property instead.")
+    //deprecated("Use the 'position' property instead.")
     @property
     {
         /**
@@ -236,7 +236,7 @@ final abstract class Listener
          *
          * The default listener's position is (0, 0, 0).
          *
-         * Deprecated: Use the 'position' property instead.
+         * //deprecated: Use the 'position' property instead.
          */
         static void Position(Vector3f position)
         {

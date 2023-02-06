@@ -75,13 +75,13 @@ class Shader {
         }
         
         if(type == Type.Vertex){
-            sfPtr = sfShader_createFromFile(filename.toStringz, null);
+            sfPtr = sfShader_createFromFile(filename.toStringz, null,null);
         }
         else if(type == Type.Geometry){
-            sfPtr = null;
+            sfPtr = sfShader_createFromFile(null,filename.toStringz,null);
         }
         else if(type == Type.Fragment){
-            sfPtr = sfShader_createFromFile(null, filename.toStringz);
+            sfPtr = sfShader_createFromFile(null,null, filename.toStringz);
         }
         
         return sfPtr !is null;
@@ -107,7 +107,7 @@ class Shader {
         if(sfPtr !is null){
             sfShader_destroy(sfPtr);
         }
-        sfPtr = sfShader_createFromFile(vertexShaderFilename.toStringz, fragmentShaderFilename.toStringz);
+        sfPtr = sfShader_createFromFile(vertexShaderFilename.toStringz, null, fragmentShaderFilename.toStringz);
         return sfPtr !is null;
     }
 
@@ -157,13 +157,13 @@ class Shader {
         }
 
         if(type == Type.Vertex){
-            sfPtr = sfShader_createFromMemory(shader.toStringz, null);
+            sfPtr = sfShader_createFromMemory(shader.toStringz, null, null);
         }
         else if(type == Type.Geometry){
-            sfPtr = null;
+            sfPtr = sfShader_createFromMemory(null, shader.toStringz, null);
         }
         else if(type == Type.Fragment){
-            sfPtr = sfShader_createFromMemory(null, shader.toStringz);
+            sfPtr = sfShader_createFromMemory(null, null, shader.toStringz);
         }
 
         return sfPtr !is null;
@@ -185,13 +185,13 @@ class Shader {
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool loadFromMemory(const(char)[] vertexShader, const(char)[] fragmentShader)
+    bool loadFromMemory(const(char)[] vertexShader, const(char)[] geometryShader, const(char)[] fragmentShader)
     {
         if(sfPtr !is null){
             sfShader_destroy(sfPtr);
         }
 
-        sfPtr = sfShader_createFromMemory(vertexShader.toStringz, fragmentShader.toStringz);
+        sfPtr = sfShader_createFromMemory(vertexShader.toStringz, geometryShader.toStringz, fragmentShader.toStringz);
 
         return sfPtr !is null;
     }

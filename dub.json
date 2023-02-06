@@ -4,7 +4,7 @@
 	],
 	"copyright": "Copyright © 2022, Drifton Aloft",
 	"dependencies": {
-		"bindbc-sfml" : "~>0.2.0"
+		"bindbc-sfml" : "~>1.0.2"
 	},
 	"versions" : [
 		"SFML_Graphics", 
