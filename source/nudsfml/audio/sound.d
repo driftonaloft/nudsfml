@@ -72,7 +72,7 @@ import nudsfml.audio.soundsource;
 import nudsfml.system.vector3;
 
 enum Status {
-    Stopped, 
+    Stopped,
     Paused,
     Playing
 }
@@ -81,12 +81,12 @@ enum Status {
  * Regular sound that can be played in the audio environment.
  */
 class Sound {
-    import std.typecons:Rebindable;
+    import std.typecons : Rebindable;
 
     //Const AND able to be rebound. Word.
     private Rebindable!(const(SoundBuffer)) m_buffer;
     package sfSound* sfPtr = null;
-    
+
     /// Default constructor.
     this() {
         sfPtr = sfSound_create();
@@ -98,16 +98,16 @@ class Sound {
      * Params:
      *	buffer = Sound buffer containing the audio data to play with the sound
      */
-    this(const(SoundBuffer) buffer){
+    this(const(SoundBuffer) buffer) {
         this();
 
         setBuffer(buffer);
     }
 
     /// Destructor.
-    ~this()
-    {
+    ~this() {
         import nudsfml.system.config;
+
         mixin(destructorOutput);
         //stop the sound
         stop();
@@ -115,8 +115,7 @@ class Sound {
         sfSound_destroy(sfPtr);
     }
 
-    @property
-    {
+    @property {
         /**
          * Whether or not the sound should loop after reaching the end.
          *
@@ -125,7 +124,7 @@ class Sound {
          *
          * The default looping state for sound is false.
          */
-        void isLooping(bool loop){
+        void isLooping(bool loop) {
             sfSound_setLoop(sfPtr, loop);
         }
 
@@ -135,8 +134,7 @@ class Sound {
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * Change the current playing position (from the beginning) of the sound.
          *
@@ -144,29 +142,26 @@ class Sound {
          * playing.
          */
         void playingOffset(Time offset) {
-            sfSound_setPlayingOffset(sfPtr,cast(sfTime)offset);
+            sfSound_setPlayingOffset(sfPtr, cast(sfTime) offset);
         }
 
         /// ditto
         Time playingOffset() const {
-            return cast(Time)sfSound_getPlayingOffset(sfPtr);
+            return cast(Time) sfSound_getPlayingOffset(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * Get the current status of the sound (stopped, paused, playing).
          */
-        Status status() const
-        {
-            return cast(Status)sfSound_getStatus(sfPtr);
+        Status status() const {
+            return cast(Status) sfSound_getStatus(sfPtr);
         }
     }
 
     //from SoundSource
-    @property
-    {
+    @property {
         /**
          * The pitch of the sound.
          *
@@ -175,40 +170,34 @@ class Sound {
          * effect of changing the pitch is to modify the playing speed of the sound
          * as well. The default value for the pitch is 1.
          */
-        void pitch(float newPitch)
-        {
+        void pitch(float newPitch) {
             sfSound_setPitch(sfPtr, newPitch);
         }
 
         /// ditto
-        float pitch() const
-        {
+        float pitch() const {
             return sfSound_getPitch(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The volume of the sound.
          *
          * The volume is a value between 0 (mute) and 100 (full volume). The
          * default value for the volume is 100.
          */
-        void volume(float newVolume)
-        {
+        void volume(float newVolume) {
             sfSound_setVolume(sfPtr, newVolume);
         }
 
         /// ditto
-        float volume() const
-        {
+        float volume() const {
             return sfSound_getVolume(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The 3D position of the sound in the audio scene.
          *
@@ -216,18 +205,17 @@ class Sound {
          * default position of a sound is (0, 0, 0).
          */
         void position(Vector3f newPosition) {
-            sfSound_setPosition(sfPtr, cast(sfVector3f)newPosition);
+            sfSound_setPosition(sfPtr, cast(sfVector3f) newPosition);
         }
 
         /// ditto
-        Vector3f position() const{
+        Vector3f position() const {
             Vector3f temp = cast(Vector3f) sfSound_getPosition(sfPtr);
             return temp;
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * Make the sound's position relative to the listener (true) or absolute
          * (false).
@@ -238,20 +226,17 @@ class Sound {
          * listener, or sounds attached to it. The default value is false
          * (position is absolute).
          */
-        void relativeToListener(bool relative)
-        {
+        void relativeToListener(bool relative) {
             sfSound_setRelativeToListener(sfPtr, relative);
         }
 
         /// ditto
-        bool relativeToListener() const
-        {
+        bool relativeToListener() const {
             return sfSound_isRelativeToListener(sfPtr) > 0;
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The minimum distance of the sound.
          *
@@ -261,20 +246,17 @@ class Sound {
          * ("inside the head of the listener") is an invalid value and is forbidden.
          * The default value of the minimum distance is 1.
          */
-        void minDistance(float distance)
-        {
+        void minDistance(float distance) {
             sfSound_setMinDistance(sfPtr, distance);
         }
 
         /// ditto
-        float minDistance() const
-        {
+        float minDistance() const {
             return sfSound_getMinDistance(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The attenuation factor of the sound.
          *
@@ -287,14 +269,12 @@ class Sound {
          * fade out very quickly as it gets further from the listener. The default
          * value of the attenuation is 1.
          */
-        void attenuation(float newAttenuation)
-        {
+        void attenuation(float newAttenuation) {
             sfSound_setAttenuation(sfPtr, newAttenuation);
         }
 
         /// ditto
-        float attenuation() const
-        {
+        float attenuation() const {
             return sfSound_getAttenuation(sfPtr);
         }
     }
@@ -309,8 +289,7 @@ class Sound {
      * Params:
      * 		buffer =	Sound buffer to attach to the sound
      */
-    void setBuffer(const(SoundBuffer) buffer)
-    {
+    void setBuffer(const(SoundBuffer) buffer) {
         m_buffer = buffer;
         sfSound_setBuffer(sfPtr, buffer.sfPtr);
     }
@@ -321,8 +300,7 @@ class Sound {
      * This function pauses the sound if it was playing, otherwise
      * (sound already paused or stopped) it has no effect.
      */
-    void pause()
-    {
+    void pause() {
         sfSound_pause(sfPtr);
     }
 
@@ -335,8 +313,7 @@ class Sound {
      * This function uses its own thread so that it doesn't block the rest of
      * the program while the sound is played.
      */
-    void play()
-    {
+    void play() {
         sfSound_play(sfPtr);
     }
 
@@ -347,16 +324,13 @@ class Sound {
      * nothing if it was already stopped. It also resets the playing position
      * (unlike `pause()`).
      */
-    void stop()
-    {
+    void stop() {
         sfSound_stop(sfPtr);
     }
 }
 
-unittest
-{
-    version(DSFML_Unittest_Audio)
-    {
+unittest {
+    version (DSFML_Unittest_Audio) {
         import std.stdio;
         import nudsfml.system.clock;
 
@@ -366,8 +340,7 @@ unittest
 
         auto soundbuffer = new SoundBuffer();
 
-        if(!soundbuffer.loadFromFile("res/TestSound.ogg"))
-        {
+        if (!soundbuffer.loadFromFile("res/TestSound.ogg")) {
             //error
             return;
         }
@@ -382,9 +355,7 @@ unittest
         //play the sound!
         sound.play();
 
-
-        while(clock.getElapsedTime().asSeconds() < duration)
-        {
+        while (clock.getElapsedTime().asSeconds() < duration) {
             //wait for sound to finish
         }
 
@@ -392,9 +363,6 @@ unittest
 
         //sound.relativeToListener(false);
 
-
-
         writeln();
     }
 }
-

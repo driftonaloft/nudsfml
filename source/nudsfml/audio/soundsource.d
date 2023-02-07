@@ -44,11 +44,9 @@ import nudsfml.system.vector3;
 /**
  * Interface defining a sound's properties.
  */
-interface SoundSource
-{
+interface SoundSource {
     /// Enumeration of the sound source states.
-    enum Status
-    {
+    enum Status {
         /// Sound is not playing.
         Stopped,
         /// Sound is paused.
@@ -57,8 +55,7 @@ interface SoundSource
         Playing
     }
 
-    @property
-    {
+    @property {
         /**
          * The pitch of the sound.
          *
@@ -73,8 +70,7 @@ interface SoundSource
         float pitch();
     }
 
-    @property
-    {
+    @property {
         /**
          * The volume of the sound.
          *
@@ -87,8 +83,7 @@ interface SoundSource
         float volume();
     }
 
-    @property
-    {
+    @property {
         /**
          * The 3D position of the sound in the audio scene.
          *
@@ -101,8 +96,7 @@ interface SoundSource
         Vector3f position();
     }
 
-    @property
-    {
+    @property {
         /**
          * Make the sound's position relative to the listener (true) or absolute
          * (false).
@@ -119,8 +113,7 @@ interface SoundSource
         bool relativeToListener();
     }
 
-    @property
-    {
+    @property {
         /**
          * The minimum distance of the sound.
          *
@@ -136,8 +129,7 @@ interface SoundSource
         float minDistance();
     }
 
-    @property
-    {
+    @property {
         /**
          * The attenuation factor of the sound.
          *

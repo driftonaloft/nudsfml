@@ -112,23 +112,23 @@ public import nudsfml.system.time;
 /**
  * Abstract base class for streamed audio sources.
  */
-class SoundStream : SoundSource
-{
+class SoundStream : SoundSource {
     package sfSoundStream* sfPtr;
     private SoundStreamCallBacks callBacks;
 
     /// Internal constructor required to set up callbacks.
     protected this() {
-        //callBacks = new SoundStreamCallBacks(this);
-        //sfPtr = sfSoundStream_construct(callBacks);
+        callBacks = new SoundStreamCallBacks(this);
+        sfPtr = sfSoundStream_construct(callBacks);
     }
 
     /// Destructor.
-    ~this(){
+    ~this() {
         import nudsfml.system.config;
+
         mixin(destructorOutput);
 
-        if(sfPtr !is null){ 
+        if (sfPtr !is null) {
             sfSoundStream_destroy(sfPtr);
         }
     }
@@ -146,13 +146,11 @@ class SoundStream : SoundSource
      *	channelCount = Number of channels of the stream
      *	sampleRate   = Sample rate, in samples per second
      */
-    protected void initialize(uint channelCount, uint sampleRate)
-    {
+    protected void initialize(uint channelCount, uint sampleRate) {
         //sfSoundStream_initialize(sfPtr, channelCount, sampleRate);
     }
 
-    @property
-    {
+    @property {
         /**
          * The pitch of the sound.
          *
@@ -161,61 +159,52 @@ class SoundStream : SoundSource
          * effect of changing the pitch is to modify the playing speed of the sound
          * as well. The default value for the pitch is 1.
          */
-        void pitch(float newPitch)
-        {
+        void pitch(float newPitch) {
             sfSoundStream_setPitch(sfPtr, newPitch);
         }
 
         /// ditto
-        float pitch() const
-        {
+        float pitch() const {
             return sfSoundStream_getPitch(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The volume of the sound.
          *
          * The volume is a vlue between 0 (mute) and 100 (full volume). The default
          * value for the volume is 100.
          */
-        void volume(float newVolume)
-        {
+        void volume(float newVolume) {
             sfSoundStream_setVolume(sfPtr, newVolume);
         }
 
         /// ditto
-        float volume() const
-        {
+        float volume() const {
             return sfSoundStream_getVolume(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The 3D position of the sound in the audio scene.
          *
          * Only sounds with one channel (mono sounds) can be spatialized. The
          * default position of a sound is (0, 0, 0).
          */
-        void position(Vector3f newPosition)
-        {
-            sfSoundStream_setPosition(sfPtr, cast(sfVector3f)newPosition);
+        void position(Vector3f newPosition) {
+            sfSoundStream_setPosition(sfPtr, cast(sfVector3f) newPosition);
         }
 
         /// ditto
-        Vector3f position() const
-        {
-            Vector3f temp = cast(Vector3f)sfSoundStream_getPosition(sfPtr);
+        Vector3f position() const {
+            Vector3f temp = cast(Vector3f) sfSoundStream_getPosition(sfPtr);
             return temp;
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * Whether or not the stream should loop after reaching the end.
          *
@@ -224,41 +213,35 @@ class SoundStream : SoundSource
          *
          * Default looping state for streams is false.
          */
-        void isLooping(bool loop)
-        {
+        void isLooping(bool loop) {
             sfSoundStream_setLoop(sfPtr, loop);
         }
 
         /// ditto
-        bool isLooping() const
-        {
+        bool isLooping() const {
             return sfSoundStream_getLoop(sfPtr) > 0;
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The current playing position (from the beginning) of the stream.
          *
          * The playing position can be changed when the stream is either paused or
          * playing.
          */
-        void playingOffset(Time offset)
-        {
-            sfSoundStream_setPlayingOffset(sfPtr, cast(sfTime)offset);
+        void playingOffset(Time offset) {
+            sfSoundStream_setPlayingOffset(sfPtr, cast(sfTime) offset);
 
         }
 
         /// ditto
-        Time playingOffset() const
-        {
-            return cast(Time)sfSoundStream_getPlayingOffset(sfPtr);
+        Time playingOffset() const {
+            return cast(Time) sfSoundStream_getPlayingOffset(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * Make the sound's position relative to the listener (true) or absolute
          * (false).
@@ -269,20 +252,17 @@ class SoundStream : SoundSource
          * listener, or sounds attached to it. The default value is false (position
          * is absolute).
          */
-        void relativeToListener(bool relative)
-        {
+        void relativeToListener(bool relative) {
             sfSoundStream_setRelativeToListener(sfPtr, relative);
         }
 
         /// ditto
-        bool relativeToListener() const
-        {
+        bool relativeToListener() const {
             return sfSoundStream_isRelativeToListener(sfPtr) > 0;
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The minimum distance of the sound.
          *
@@ -292,20 +272,17 @@ class SoundStream : SoundSource
          * ("inside the head of the listener") is an invalid value and is forbidden.
          * The default value of the minimum distance is 1.
          */
-        void minDistance(float distance)
-        {
+        void minDistance(float distance) {
             sfSoundStream_setMinDistance(sfPtr, distance);
         }
 
         /// ditto
-        float minDistance() const
-        {
+        float minDistance() const {
             return sfSoundStream_getMinDistance(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The attenuation factor of the sound.
          *
@@ -318,52 +295,43 @@ class SoundStream : SoundSource
          * fade out very quickly as it gets further from the listener. The default
          * value of the attenuation is 1.
          */
-        void attenuation(float newAttenuation)
-        {
+        void attenuation(float newAttenuation) {
             sfSoundStream_setAttenuation(sfPtr, newAttenuation);
         }
 
         /// ditto
-        float attenuation() const
-        {
+        float attenuation() const {
             return sfSoundStream_getAttenuation(sfPtr);
         }
     }
 
-
-    @property
-    {
+    @property {
         /**
          * The number of channels of the stream.
          *
          * 1 channel means mono sound, 2 means stereo, etc.
          */
-        uint channelCount() const
-        {
+        uint channelCount() const {
             return sfSoundStream_getChannelCount(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /**
          * The stream sample rate of the stream
          *
          * The sample rate is the number of audio samples played per second. The
          * higher, the better the quality.
          */
-        uint sampleRate() const
-        {
+        uint sampleRate() const {
             return sfSoundStream_getSampleRate(sfPtr);
         }
     }
 
-    @property
-    {
+    @property {
         /// The current status of the stream (stopped, paused, playing)
-        Status status() const
-        {
-            return cast(Status)sfSoundStream_getStatus(sfPtr);
+        Status status() const {
+            return cast(Status) sfSoundStream_getStatus(sfPtr);
         }
     }
 
@@ -375,8 +343,7 @@ class SoundStream : SoundSource
     * function uses its own thread so that it doesn't block the rest of the
     * program while the stream is played.
      */
-    void play()
-    {
+    void play() {
         sfSoundStream_play(sfPtr);
     }
 
@@ -386,8 +353,7 @@ class SoundStream : SoundSource
      * This function pauses the stream if it was playing, otherwise (stream
      * already paused or stopped) it has no effect.
      */
-    void pause()
-    {
+    void pause() {
         sfSoundStream_pause(sfPtr);
     }
 
@@ -398,8 +364,7 @@ class SoundStream : SoundSource
      * nothing if it was already stopped. It also resets the playing position
      * (unlike pause()).
      */
-    void stop()
-    {
+    void stop() {
         sfSoundStream_stop(sfPtr);
     }
 
@@ -430,34 +395,27 @@ class SoundStream : SoundSource
     protected abstract void onSeek(Time timeOffset);
 }
 
-private extern(C++)
-{
-    struct Chunk
-    {
+private extern (C++) {
+    struct Chunk {
         const(short)* samples;
         size_t sampleCount;
     }
 }
 
-private extern(C++) interface sfmlSoundStreamCallBacks
-{
+private extern (C++) interface sfmlSoundStreamCallBacks {
 public:
     bool onGetData(Chunk* chunk);
     void onSeek(long time);
 }
 
-
-class SoundStreamCallBacks: sfmlSoundStreamCallBacks
-{
+class SoundStreamCallBacks : sfmlSoundStreamCallBacks {
     SoundStream m_stream;
 
-    this(SoundStream stream)
-    {
+    this(SoundStream stream) {
         m_stream = stream;
     }
 
-    extern(C++) bool onGetData(Chunk* chunk)
-    {
+    extern (C++) bool onGetData(Chunk* chunk) {
         const(short)[] samples;
 
         auto ret = m_stream.onGetData(samples);
@@ -468,8 +426,7 @@ class SoundStreamCallBacks: sfmlSoundStreamCallBacks
         return ret;
     }
 
-    extern(C++) void onSeek(long time)
-    {
+    extern (C++) void onSeek(long time) {
         m_stream.onSeek(microseconds(time));
     }
 }

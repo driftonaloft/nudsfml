@@ -63,10 +63,8 @@ import bindbc.sfml.system;
  * The audio listener is the point in the scene from where all the sounds are
  * heard.
  */
-final abstract class Listener
-{
-    @property
-    {
+final abstract class Listener {
+    @property { //direction
         /**
          * The orientation of the listener in the scene.
          *
@@ -75,8 +73,7 @@ final abstract class Listener
          *
          * The default listener's orientation is (0, 0, -1).
          */
-        static void direction(Vector3f orientation)
-        {
+        static void direction(Vector3f orientation) {
             sfListener_setDirection(cast(sfVector3f)orientation);
         }
 
@@ -87,8 +84,7 @@ final abstract class Listener
         }
     }
 
-    @property
-    {
+    @property { //upVector
         /**
          * The upward vector of the listener in the scene.
          *
@@ -97,21 +93,18 @@ final abstract class Listener
          *
          * The default listener's upward vector is (0, 1, 0).
          */
-        static void upVector(Vector3f orientation)
-        {
+        static void upVector(Vector3f orientation) {
             sfListener_setUpVector(cast(sfVector3f)orientation);
         }
 
         /// ditto
-        static Vector3f upVector()
-        {
+        static Vector3f upVector() {
             Vector3f temp = cast(Vector3f)sfListener_getUpVector();
             return temp;
         }
     }
 
-    @property
-    {
+    @property { //globalVolume
         /**
          * The global volume of all the sounds and musics.
          *
@@ -120,41 +113,35 @@ final abstract class Listener
          *
          * The default value for the volume is 100 (maximum).
          */
-        static void globalVolume(float volume)
-        {
+        static void globalVolume(float volume) {
             sfListener_setGlobalVolume(volume);
         }
 
         /// ditto
-        static float globalVolume()
-        {
+        static float globalVolume() {
             return sfListener_getGlobalVolume();
         }
     }
 
-    @property
-    {
+    @property { //position
         /**
          * The position of the listener in the scene.
          *
          * The default listener's position is (0, 0, 0).
          */
-        static void position(Vector3f pos)
-        {
+        static void position(Vector3f pos) {
             sfListener_setPosition(cast(sfVector3f)pos);
         }
 
         /// ditto
-        static Vector3f position()
-        {
+        static Vector3f position() {
             Vector3f temp = cast(Vector3f)sfListener_getPosition();
             return temp;
         }
     }
 
     //deprecated("Use the 'direction' property instead.")
-    @property
-    {
+    @property { //direction
         /**
          * The orientation of the listener in the scene.
          *
@@ -165,22 +152,19 @@ final abstract class Listener
          *
          * //deprecated: Use the 'direction' property instead.
          */
-        static void Direction(Vector3f orientation)
-        {
+        static void Direction(Vector3f orientation) {
             sfListener_setDirection(cast(sfVector3f)orientation);
         }
 
         /// ditto
-        static Vector3f Direction()
-        {
+        static Vector3f Direction() {
             Vector3f temp = cast(Vector3f)sfListener_getDirection();
             return temp;
         }
     }
 
     //deprecated("Use the 'upVector' property instead.")
-    @property
-    {
+    @property {
         /**
          * The upward vector of the listener in the scene.
          *
@@ -191,22 +175,19 @@ final abstract class Listener
          *
          * //deprecated: Use the 'upVector' property instead.
          */
-        static void UpVector(Vector3f orientation)
-        {
+        static void UpVector(Vector3f orientation) {
             sfListener_setUpVector(cast(sfVector3f)orientation);
         }
 
         /// ditto
-        static Vector3f UpVector()
-        {
+        static Vector3f UpVector() {
             Vector3f temp = cast(Vector3f)sfListener_getUpVector();
             return temp;
         }
     }
 
     //deprecated("Use the 'globalVolume' property instead.")
-    @property
-    {
+    @property {
         /**
          * The global volume of all the sounds and musics. The volume is a
          * number between 0 and 100; it is combined with the individual volume
@@ -216,21 +197,18 @@ final abstract class Listener
          *
          * //deprecated: Use the 'globalVolume' property instead.
          */
-        static void GlobalVolume(float volume)
-        {
+        static void GlobalVolume(float volume) {
             sfListener_setGlobalVolume(volume);
         }
 
         /// ditto
-        static float GlobalVolume()
-        {
+        static float GlobalVolume() {
             return sfListener_getGlobalVolume();
         }
     }
 
     //deprecated("Use the 'position' property instead.")
-    @property
-    {
+    @property {
         /**
          * The position of the listener in the scene.
          *
@@ -238,44 +216,40 @@ final abstract class Listener
          *
          * //deprecated: Use the 'position' property instead.
          */
-        static void Position(Vector3f position)
-        {
+        static void Position(Vector3f position) {
 
             sfListener_setPosition(cast(sfVector3f)position);
         }
 
         /// ditto
-        static Vector3f Position()
-        {
+        static Vector3f Position() {
             Vector3f temp = cast(Vector3f) sfListener_getPosition();
             return temp;
         }
     }
 }
 
-unittest
-{
-    version (DSFML_Unittest_Audio)
-    {
+unittest {
+    version (DSFML_Unittest_Audio) {
         import std.stdio;
 
         writeln("Unit test for Listener");
 
-        float volume = Listener.GlobalVolume;
+        float volume = Listener.globalVolume;
         volume -= 10;
-        Listener.GlobalVolume = volume;
+        Listener.globalVolume = volume;
 
-        Vector3f pos = Listener.Position;
+        Vector3f pos = Listener.position;
         pos.x += 10;
         pos.y -= 10;
         pos.z *= 3;
-        Listener.Position = pos;
+        Listener.position = pos;
 
-        Vector3f dir = Listener.Direction;
+        Vector3f dir = Listener.direction;
         dir.x += 10;
         dir.y -= 10;
         dir.z *= 3;
-        Listener.Direction = dir;
+        Listener.direction = dir;
         writeln("Unit tests pass!");
         writeln();
     }

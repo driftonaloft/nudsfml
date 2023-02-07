@@ -64,19 +64,18 @@ import nudsfml.system.err;
 /**
  * Provide write access to sound files.
  */
-class OutputSoundFile
-{
+class OutputSoundFile {
     //private sfOutputSoundFile* m_soundFile;
 
     /// Default constructor.
-    this()
-    {
+    this() {
         //m_soundFile = null; // sfOutputSoundFile_create();
     }
 
     /// Destructor.
     ~this() {
-        import nudsfml.system.config: destructorOutput;
+        import nudsfml.system.config : destructorOutput;
+
         mixin(destructorOutput);
         /*if(m_soundFile !is null) {
             sfOutputSoundFile_destroy(m_soundFile);
@@ -95,9 +94,8 @@ class OutputSoundFile
      *
      * Returns: true if the file was successfully opened.
      */
-    bool openFromFile(const(char)[] filename, uint sampleRate, uint channelCount)
-    {
-        return  false; // sfOutputSoundFile_openFromFile(m_soundFile, filename.ptr, filename.length,channelCount,sampleRate);
+    bool openFromFile(const(char)[] filename, uint sampleRate, uint channelCount) {
+        return false; // sfOutputSoundFile_openFromFile(m_soundFile, filename.ptr, filename.length,channelCount,sampleRate);
     }
 
     /**
@@ -106,11 +104,8 @@ class OutputSoundFile
      * Params:
      *	samples = array of samples to write
      */
-    void write(const(short)[] samples)
-    {
+    void write(const(short)[] samples) {
         //sfOutputSoundFile_write(m_soundFile, samples.ptr, samples.length);
     }
 
 }
-
-

@@ -108,7 +108,7 @@ import nudsfml.system.err;
 /**
  * Storage for audio samples defining a sound.
  */
-class SoundBuffer{
+class SoundBuffer {
     package sfSoundBuffer* sfPtr;
 
     /// Default constructor.
@@ -117,11 +117,11 @@ class SoundBuffer{
     }
 
     /// Destructor.
-    ~this()
-    {
+    ~this() {
         import nudsfml.system.config;
+
         mixin(destructorOutput);
-        if(sfPtr !is null){
+        if (sfPtr !is null) {
             sfSoundBuffer_destroy(sfPtr);
         }
     }
@@ -133,10 +133,9 @@ class SoundBuffer{
      *
      *  Returns: Read-only array of sound samples.
      */
-    const(short[]) getSamples() const
-    {
+    const(short[]) getSamples() const {
         auto sampleCount = sfSoundBuffer_getSampleCount(sfPtr);
-        if(sampleCount > 0)
+        if (sampleCount > 0)
             return sfSoundBuffer_getSamples(sfPtr)[0 .. sampleCount];
 
         return null;
@@ -150,8 +149,7 @@ class SoundBuffer{
      *
      * Returns: Sample rate (number of samples per second).
      */
-    uint getSampleRate() const
-    {
+    uint getSampleRate() const {
         return sfSoundBuffer_getSampleRate(sfPtr);
     }
 
@@ -163,8 +161,7 @@ class SoundBuffer{
      *
      * Returns: Number of channels.
      */
-    uint getChannelCount() const
-    {
+    uint getChannelCount() const {
         return sfSoundBuffer_getChannelCount(sfPtr);
     }
 
@@ -173,9 +170,8 @@ class SoundBuffer{
      *
      * Returns: Sound duration.
      */
-    Time getDuration() const
-    {
-        return cast(Time)sfSoundBuffer_getDuration(sfPtr);
+    Time getDuration() const {
+        return cast(Time) sfSoundBuffer_getDuration(sfPtr);
     }
 
     /**
@@ -189,10 +185,10 @@ class SoundBuffer{
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool loadFromFile(const(char)[] filename)
-    {
+    bool loadFromFile(const(char)[] filename) {
         import std.string;
-        if(sfPtr !is null){
+
+        if (sfPtr !is null) {
             sfSoundBuffer_destroy(sfPtr);
         }
         sfPtr = sfSoundBuffer_createFromFile(filename.toStringz);
@@ -210,9 +206,8 @@ class SoundBuffer{
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool loadFromMemory(const(void)[] data)
-    {
-        if(sfPtr !is null){
+    bool loadFromMemory(const(void)[] data) {
+        if (sfPtr !is null) {
             sfSoundBuffer_destroy(sfPtr);
         }
         sfPtr = sfSoundBuffer_createFromMemory(data.ptr, data.length);
@@ -248,9 +243,8 @@ class SoundBuffer{
      *
      * Returns: true if loading succeeded, false if it failed.
      */
-    bool loadFromSamples(const(short[]) samples, uint channelCount, uint sampleRate)
-    {
-        if(sfPtr !is null){
+    bool loadFromSamples(const(short[]) samples, uint channelCount, uint sampleRate) {
+        if (sfPtr !is null) {
             sfSoundBuffer_destroy(sfPtr);
         }
         sfPtr = sfSoundBuffer_createFromSamples(samples.ptr, samples.length, channelCount, sampleRate);
@@ -267,26 +261,23 @@ class SoundBuffer{
      *
      * Returns: true if saving succeeded, false if it failed.
      */
-    bool saveToFile(const(char)[] filename) const
-    {
+    bool saveToFile(const(char)[] filename) const {
         import std.string;
+
         return sfSoundBuffer_saveToFile(sfPtr, filename.toStringz) > 0;
     }
 
 }
 
-unittest
-{
-    version(DSFML_Unittest_Audio)
-    {
+unittest {
+    version (DSFML_Unittest_Audio) {
         import std.stdio;
 
         writeln("Unit test for sound buffer");
 
         auto soundbuffer = new SoundBuffer();
 
-        if(!soundbuffer.loadFromFile("res/TestSound.ogg"))
-        {
+        if (!soundbuffer.loadFromFile("res/TestSound.ogg")) {
             //error
             return;
         }
@@ -305,8 +296,7 @@ unittest
     }
 }
 
-private extern(C++) interface sfmlInputStream
-{
+private extern (C++) interface sfmlInputStream {
     long read(void* data, long size);
 
     long seek(long position);
@@ -316,33 +306,26 @@ private extern(C++) interface sfmlInputStream
     long getSize();
 }
 
-private class SoundBufferStream:sfmlInputStream
-{
+private class SoundBufferStream : sfmlInputStream {
     private InputStream myStream;
 
-    this(InputStream stream)
-    {
+    this(InputStream stream) {
         myStream = stream;
     }
 
-    extern(C++)long read(void* data, long size)
-    {
-        return myStream.read(data[0..cast(size_t)size]);
+    extern (C++) long read(void* data, long size) {
+        return myStream.read(data[0 .. cast(size_t) size]);
     }
 
-    extern(C++)long seek(long position)
-    {
+    extern (C++) long seek(long position) {
         return myStream.seek(position);
     }
 
-    extern(C++)long tell()
-    {
+    extern (C++) long tell() {
         return myStream.tell();
     }
 
-    extern(C++)long getSize()
-    {
+    extern (C++) long getSize() {
         return myStream.getSize();
     }
 }
-
