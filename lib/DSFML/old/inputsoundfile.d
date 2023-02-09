@@ -63,7 +63,7 @@
  * See_Also:
  * $(OUTPUTSOUNDFILE_LINK)
  */
-module nudsfml.audio.inputsoundfile;
+module nudsfml.audio.old.inputsoundfile;
 
 import std.string;
 import nudsfml.system.inputstream;

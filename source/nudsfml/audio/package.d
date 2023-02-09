@@ -29,16 +29,11 @@
 module nudsfml.audio;
 
 public {
-    import nudsfml.audio.inputsoundfile;
     import nudsfml.audio.listener;
     import nudsfml.audio.music;
-    import nudsfml.audio.outputsoundfile;
     import nudsfml.audio.sound;
     import nudsfml.audio.soundbuffer;
 
-    //import nudsfml.audio.soundbufferrecorder;
-    //import nudsfml.audio.soundrecorder;
-    import nudsfml.audio.soundsource;
     import nudsfml.audio.soundstream;
 
     import nudsfml.system;
