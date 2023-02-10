@@ -1,3 +1,4 @@
+version(GAMEEXAMPLE){
 module gameentity;
 
 import nudsfml.graphics;
@@ -104,4 +105,5 @@ class AppleEntity : Entity {
 
         super.draw(target);
     }
+}
 }

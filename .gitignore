@@ -1,5 +1,6 @@
 nudsfml-test-library
 libnudsfml.a
+/nudsfml
 
 .dub
 .vscode

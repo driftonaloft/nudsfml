@@ -1,3 +1,5 @@
+version(GAMEEXAMPLE){
+
 module game;
 
 import nudsfml.graphics;
@@ -164,4 +166,5 @@ class Game {
         //clean up resources 
 
     }
+}
 }

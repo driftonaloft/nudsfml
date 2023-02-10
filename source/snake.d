@@ -1,3 +1,4 @@
+version(GAMEEXAMPLE){
 module snake;
 
 import gameentity;
@@ -110,4 +111,5 @@ class Snake {
     }
 
 
+}
 }

@@ -1,3 +1,5 @@
+module example.app;
+
 version(GAMEEXAMPLE){
 import std.stdio;
 import std.format;

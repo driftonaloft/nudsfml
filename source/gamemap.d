@@ -1,3 +1,4 @@
+version(GAMEEXAMPLE){
 module gamemap;
 
 import nudsfml.graphics;
@@ -239,4 +240,5 @@ class GameMap {
             }   
         }
     }
+}
 }
