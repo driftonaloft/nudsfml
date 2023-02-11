@@ -1,5 +1,5 @@
+module example.gamemap;
 version(GAMEEXAMPLE){
-module gamemap;
 
 import nudsfml.graphics;
 

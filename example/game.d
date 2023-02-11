@@ -1,6 +1,6 @@
-version(GAMEEXAMPLE){
+module example.game;
 
-module game;
+version(GAMEEXAMPLE){
 
 import nudsfml.graphics;
 import nudsfml.system;

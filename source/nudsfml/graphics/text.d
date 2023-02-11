@@ -481,8 +481,8 @@ class Text : Drawable, Transformable
      *
      * Returns: Local bounding rectangle of the entity.
      */
-    @property FloatRect localBounds() const
-    {
+    @property FloatRect localBounds() {
+        ensureGeometryUpdate();
         return m_bounds;
     }
 
@@ -499,8 +499,7 @@ class Text : Drawable, Transformable
      * //deprecated: Use the 'globalBounds' property instead.
      */
     //deprecated("Use the 'localBounds' property instead.")
-    FloatRect getLocalBounds() const
-    {
+    FloatRect getLocalBounds(){
         return localBounds;
     }
 

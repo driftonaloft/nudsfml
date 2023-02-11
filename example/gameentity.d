@@ -1,5 +1,6 @@
+module example.gameentity;
+
 version(GAMEEXAMPLE){
-module gameentity;
 
 import nudsfml.graphics;
 

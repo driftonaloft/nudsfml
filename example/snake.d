@@ -1,5 +1,6 @@
+module example.snake;
+
 version(GAMEEXAMPLE){
-module snake;
 
 import gameentity;
 import gamemap;
