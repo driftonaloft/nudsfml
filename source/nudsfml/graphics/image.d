@@ -162,6 +162,18 @@ class Image {
     }
 
     /**
+     * Return the size (width and height) of the image.
+     *
+     * Returns: Size of the image, in pixels.
+     */
+    Vector2u size() const {
+       auto v = sfImage_getSize(sfPtr);
+        Vector2u temp = Vector2u(v.x,v.y);
+        return temp;
+    }
+
+
+    /**
      * Change the color of a pixel.
      *
      * This function doesn't check the validity of the pixel coordinates, using

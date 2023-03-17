@@ -231,7 +231,7 @@ class Font
      */
     Glyph getGlyph(dchar codePoint, uint characterSize, bool bold, float outlineThickness = 0) const{
         int b = bold ? 1 : 0;
-        Glyph temp = cast(Glyph)sfFont_getGlyph(sfPtr, cast(uint)codePoint, characterSize, b, outlineThickness);;
+        Glyph temp = cast(Glyph)sfFont_getGlyph(sfPtr, cast(uint)codePoint, characterSize, b, outlineThickness);
         return temp;
     }
 
